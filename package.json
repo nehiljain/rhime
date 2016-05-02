@@ -1,0 +1,23 @@
+{
+  "name": "rhime",
+  "version": "1.0.0",
+  "description": "Problem:",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack-dev-server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nehiljain/rhime.git"
+  },
+  "author": "nehiljain",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nehiljain/rhime/issues"
+  },
+  "homepage": "https://github.com/nehiljain/rhime#readme",
+  "dependencies": {
+    "react": "^15.0.2",
+    "react-dom": "^15.0.2"
+  }
+}
