@@ -24,6 +24,7 @@ passport.deserializeUser(function(id, done) {
   });
 });
 
+
 /**
  * Sign in with Instagram.
  */
@@ -400,6 +401,28 @@ passport.use('tumblr', new OAuthStrategy({
     });
   }
 ));
+
+/**
+*  Pocket
+*/
+passport.use('pocket', new OAuth2Strategy({
+    authorizationURL: 'https://getpocket.com/auth/authorize',
+    tokenURL: 'https://foursquare.com/oauth2/access_token',
+    clientID: process.env.FOURSQUARE_ID,
+    clientSecret: process.env.FOURSQUARE_SECRET,
+    callbackURL: process.env.FOURSQUARE_REDIRECT_URL,
+    passReqToCallback: true
+  },
+  function(req, accessToken, refreshToken, profile, done) {
+    User.findById(req.user._id, function(err, user) {
+      user.tokens.push({ kind: 'foursquare', accessToken: accessToken });
+      user.save(function(err) {
+        done(err, user);
+      });
+    });
+  }
+));
+
 
 /**
  * Foursquare API OAuth.

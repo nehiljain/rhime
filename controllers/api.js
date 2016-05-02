@@ -46,7 +46,8 @@ exports.getFoursquare = function(req, res, next) {
     }
   });
 
-  var token = _.find(req.user.tokens, { kind: 'foursquare' });
+  var token = _.find( req.user.tokens, { kind: 'foursquare' });
+  
   async.parallel({
     trendingVenues: function(callback) {
       foursquare.Venues.getTrending('40.7222756', '-74.0022724', { limit: 50 }, token.accessToken, function(err, results) {
