@@ -160,7 +160,7 @@ app.get('/api/upload', apiController.getFileUpload);
 app.post('/api/upload', upload.single('myFile'), apiController.postFileUpload);
 app.get('/api/pinterest', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.getPinterest);
 app.post('/api/pinterest', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.postPinterest);
-
+app.get('/api/pocket', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.getPocket);
 /**
  * OAuth authentication routes. (Sign in)
  */
@@ -212,6 +212,14 @@ app.get('/auth/pinterest', passport.authorize('pinterest', { scope: 'read_public
 app.get('/auth/pinterest/callback', passport.authorize('pinterest', { failureRedirect: '/login' }), function(req, res) {
   res.redirect('/api/pinterest');
 });
+
+app.get('/auth/pocket', passport.authenticate('pocket',{failureRedirect : '/'}), function(req, res) {
+ res.redirect('/api/pocket');
+});
+/*app.get('/auth/pocket/callback', passport.authenticate('pocket', { failureRedirect: '/login' }),
+function(req, res) {
+    res.redirect('/api/pocket');
+});*/
 
 /**
  * Error Handler.
