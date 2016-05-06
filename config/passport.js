@@ -6,13 +6,12 @@ var request = require('request');
 //var OpenIDStrategy = require('passport-openid').Strategy;
 //var LinkedInStrategy = require('passport-linkedin-oauth2').Strategy;
 //var TwitterStrategy = require('passport-twitter').Strategy;
+//var OAuthStrategy = require('passport-oauth').OAuthStrategy;
+//var OAuth2Strategy = require('passport-oauth').OAuth2Strategy;
 
 var LocalStrategy = require('passport-local').Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
-
-var OAuthStrategy = require('passport-oauth').OAuthStrategy;
-var OAuth2Strategy = require('passport-oauth').OAuth2Strategy;
 var PocketStrategy = require('passport-pocket');
 
 var User = require('../models/User');
@@ -175,7 +174,7 @@ passport.use(new GoogleStrategy({
 /**
  * Tumblr API OAuth.
  */
-passport.use('tumblr', new OAuthStrategy({
+/*passport.use('tumblr', new OAuthStrategy({
     requestTokenURL: 'http://www.tumblr.com/oauth/request_token',
     accessTokenURL: 'http://www.tumblr.com/oauth/access_token',
     userAuthorizationURL: 'http://www.tumblr.com/oauth/authorize',
@@ -192,7 +191,7 @@ passport.use('tumblr', new OAuthStrategy({
       });
     });
   }
-));
+));*/
 
 /**
 *  Pocket
@@ -239,10 +238,12 @@ exports.isAuthorized = function(req, res, next) {
   if ( provider == 'pocket' && !!req.session.pocketData && !!req.session.pocketData.accessToken ) {
     console.log("Authorized already: ",req.session.pocketData)
     return next();
+  } else {
+    res.redirect('/auth/' + provider);
   }
   
   if (_.find(req.user.tokens, { kind: provider })) {
-    console.log('Authorized alreadyyyyy')
+    //console.log('Authorized alreadyyyyy')
     next();
   } else {
     res.redirect('/auth/' + provider);
