@@ -23,6 +23,7 @@ var ig;
 var Y;
 var request;
 
+
 /**
  * GET /api
  * List of API examples.
@@ -889,6 +890,28 @@ exports.getPinterest = function(req, res, next) {
     });
   });
 };
+
+
+exports.getPocket = function(req, res, next) {
+  request = require('request');
+
+  var token = req.session.pocketData;//_.find(req.user.tokens, { kind: 'pocket' });
+  //console.log(req.user.tokens)
+  //console.log(token)
+  request.get({ url: 'https://getpocket.com/v3/get', qs: { access_token: token.accessToken, consumer_key: process.env.POCKET_CONSUMER_KEY, count:"10",
+detailType:"complete" }}, function(err, request, body) {
+    if (err) {
+      return next(err);
+    }
+    console.log('POCKET',body);
+    res.render('api/pocket', {
+      title: 'Pocket API',
+      response: JSON.stringify(body)
+    });
+  });
+};
+
+
 
 /**
  * POST /api/pinterest
