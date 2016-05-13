@@ -1,6 +1,6 @@
 module.exports = {
-  entry: './react-views/Main.js',
-  output: {}
+  entry: './react-views/app.js',
+  output: {
     filename: 'public/bundle.js'
   },
   devServer: {
