@@ -5,6 +5,10 @@ var nodemailer = require('nodemailer');
 var passport = require('passport');
 var User = require('../models/User');
 
+//var React = require('react/addons'),
+//ReactApp = React.createFactory(require('../app/components/ReactApp'));
+
+
 /**
  * GET /login
  * Login page.
