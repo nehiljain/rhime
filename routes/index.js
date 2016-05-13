@@ -14,6 +14,10 @@ var contactController = require('../controllers/contact');
  * API keys and Passport configuration.
  */
 var passportConfig = require('../config/passport');
+require('../config/pocketPassport')
+require('../config/facebookPassport')
+require('../config/googlePassport')
+
 var passport = require('passport');
 
 module.exports = function(app) {
@@ -43,8 +47,8 @@ module.exports = function(app) {
 	/**
 	 * API examples routes.
 	 */
-	app.get('/api', apiController.getApi);
-	app.get('/api/facebook', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.getFacebook);
+	//app.get('/api', apiController.getApi);
+	//app.get('/api/facebook', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.getFacebook);
 	//app.post('/api/upload', upload.single('myFile'), apiController.postFileUpload);
 	app.get('/api/pocket', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.getPocket);
 

@@ -37,7 +37,7 @@ exports.postLogin = function(req, res, next) {
     req.flash('errors', errors);
     return res.redirect('/login');
   }
-
+  //console.log(errors);
   passport.authenticate('local', function(err, user, info) {
     if (err) {
       return next(err);
@@ -61,6 +61,7 @@ exports.postLogin = function(req, res, next) {
  * Log out.
  */
 exports.logout = function(req, res) {
+  req.session.destroy();
   req.logout();
   res.redirect('/');
 };
