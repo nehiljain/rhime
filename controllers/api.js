@@ -45,7 +45,8 @@ exports.postFileUpload = function(req, res, next) {
 exports.syncPocket = function(req, res, next) {
   request = require('request');
 
-  var token = req.session.pocketData;//_.find(req.user.tokens, { kind: 'pocket' });
+  var token = _.find(req.user.tokens, { kind: 'pocket' });
+
   //console.log(req.user.tokens)
   console.log(token)
   if ( !!token && !!token.accessToken ) {
@@ -62,7 +63,7 @@ exports.syncPocket = function(req, res, next) {
       }
       var response = JSON.parse(body);
       var articeList = []
-      if ( !!response ){
+      if ( !response ){
         return next();
       }
 
