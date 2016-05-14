@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 
 
-var pocketEntrySchema = new mongoose.Schema({
+var articleSchema = new mongoose.Schema({
   item_id: { type: String, unique: true },
   given_url: String,
   given_title: String,
@@ -12,5 +12,11 @@ var pocketEntrySchema = new mongoose.Schema({
   has_video: Number,
   resolved_url: String,
   resolved_title: String,
-  events: Array
+  events: Array,
+  email : String
 });
+
+
+var Article = mongoose.model( 'Article',articleSchema)
+
+module.exports = Article;

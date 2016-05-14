@@ -1,0 +1,16 @@
+extends layout
+
+block content
+  h1= title
+
+  .row
+    .col-sm-6
+    if( pocketConnected == false )
+      h2 Your Pocket Account
+      p We need a pocket account to give you insights on your reading habits and unread stats.
+      p
+        a.btn.btn-default(href='/api/pocket', role='button') Connect
+    else 
+      h2 Pocket connected successfully!
+      p= accessToken
+    

@@ -1,6 +1,7 @@
 var _ = require('lodash');
 var async = require('async');
 
+var Article = require('../models/Article');
 /**
  * Split into declaration and initialization for better startup performance.
  */
@@ -41,7 +42,7 @@ exports.postFileUpload = function(req, res, next) {
 };
 
 
-exports.getPocket = function(req, res, next) {
+exports.syncPocket = function(req, res, next) {
   request = require('request');
 
   var token = req.session.pocketData;//_.find(req.user.tokens, { kind: 'pocket' });
@@ -50,7 +51,7 @@ exports.getPocket = function(req, res, next) {
   if ( !!token && !!token.accessToken ) {
     request.get({ 
       url: 'https://getpocket.com/v3/get', 
-      qs: { 
+      qs: {
         access_token: token.accessToken, 
         consumer_key: process.env.POCKET_CONSUMER_KEY, 
         count:"10",
@@ -59,11 +60,29 @@ exports.getPocket = function(req, res, next) {
       if (err) {
         return next(err);
       }
-      console.log('POCKET',body);
-      res.render('home', {
-        title: 'Pocket API',
+
+      var response = JSON.parse(body);
+
+      var article = []
+      Object.keys( response.list ).forEach( function(item){
+
+        var article = new Article( Object.assign({}, response.list[item], {email : req.user.email }) )
+        article.save( function(err,response,body){
+          if (err){
+            return next(err);
+          }          
+        })
+      })
+
+      res.render('dashboard', {
+        title: 'Data Synced',
         response: JSON.stringify(body)
       });
+      
+      //Article.collection.insert( articeList, function(err,request,body){
+      
+      //console.log('POCKET',response.list);
+      
     });  
   }
   

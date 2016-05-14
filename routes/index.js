@@ -53,7 +53,7 @@ module.exports = function(app) {
 	//app.get('/api', apiController.getApi);
 	//app.get('/api/facebook', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.getFacebook);
 	//app.post('/api/upload', upload.single('myFile'), apiController.postFileUpload);
-	app.get('/api/pocket', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.getPocket);
+	app.get('/api/pocket', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.syncPocket);
 
 	/**
 	 * OAuth authentication routes. (Sign in)
