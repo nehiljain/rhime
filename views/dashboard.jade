@@ -1,16 +1,39 @@
 extends layout
 
 block content
-  h1= title
-
   .row
     .col-sm-6
+      h2= title
+    .col-sm-6
+      br
     if( pocketConnected == false )
-      h2 Your Pocket Account
-      p We need a pocket account to give you insights on your reading habits and unread stats.
-      p
+      p We need your pocket account to give you insights.
         a.btn.btn-default(href='/api/pocket', role='button') Connect
     else 
-      h2 Pocket connected successfully!
+      h5 Pocket connected successfully!
       p= accessToken
+
+  hr
+  .row
+    .col-sm-6
+      h2 Unread Articles - #{articleCount}
+    .col-sm-6
+      h2 Time required - #{timeRequired} mins
+
+    .col-sm-12
+      table.table.table-responsive
+        thead
+          tr
+            td Title
+            td Word Count
+            td time
+        tbody
+          each article in articles
+            tr
+              td
+                a(href="http://getpocket.com/a/read/#{article.item_id}" target="_blank") #{article.given_title}
+              td=article.word_count
+              td=article.estimatedTime
+    
+    
     

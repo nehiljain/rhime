@@ -60,24 +60,29 @@ exports.syncPocket = function(req, res, next) {
       if (err) {
         return next(err);
       }
-
       var response = JSON.parse(body);
+      var articeList = []
+      if ( !!response ){
+        return next();
+      }
 
-      var article = []
       Object.keys( response.list ).forEach( function(item){
-
-        var article = new Article( Object.assign({}, response.list[item], {email : req.user.email }) )
-        article.save( function(err,response,body){
-          if (err){
-            return next(err);
-          }          
-        })
+        articeList.push ( 
+          Object.assign({}, response.list[item], {email : req.user.email })
+          ) 
       })
 
-      res.render('dashboard', {
-        title: 'Data Synced',
-        response: JSON.stringify(body)
-      });
+      Article.create(articeList, function(err,response,body){
+        if (err){
+          return next(err);
+        }
+        
+        res.render('dashboard', {
+          title: 'Data Synced',
+          response: JSON.stringify(body)
+        });
+
+      })      
       
       //Article.collection.insert( articeList, function(err,request,body){
       
