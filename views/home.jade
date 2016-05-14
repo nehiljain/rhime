@@ -1,17 +1,25 @@
 extends layout
 
 block content
-  h1 Dashboard
-  p.lead find out your reading habits.
+  
+  .text-center
+    h1 Rhime
+    p.lead Improve your reading habits. Get insights on your reading speed trends, debt accumulated and topics generally covered.
+  
+
   hr
-  .row
-    .col-sm-6
-    if( pocketConnected == false )
-      h2 Your Pocket Account
-      p We need a pocket account to give you insights on your reading habits and unread stats.
-      p
-        a.btn.btn-default(href='/api/pocket', role='button') Connect
-    else 
-      h2 Pocket connected successfully!
-      p= accessToken
+  br
+  .text-center
+    h1 Getting started
+
+    h3 Step 1
+    p.lead Create a account using google/facebook/email with us.
+
+
+    h3 Step 2 
+    p.lead Connect your pocket account.
+  
+
+    h3 You are Ready!
+
     
