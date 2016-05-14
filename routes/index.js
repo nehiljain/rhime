@@ -5,6 +5,7 @@ var homeController = require('../controllers/home');
 var userController = require('../controllers/user');
 var apiController = require('../controllers/api');
 var contactController = require('../controllers/contact');
+var dashboardController = require('../controllers/dashboard')
 
 //var multer = require('multer');
 //var path = require('path');
@@ -42,6 +43,8 @@ module.exports = function(app) {
 	app.post('/account/password', passportConfig.isAuthenticated, userController.postUpdatePassword);
 	app.post('/account/delete', passportConfig.isAuthenticated, userController.postDeleteAccount);
 	app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userController.getOauthUnlink);
+
+	app.get('/dashboard',dashboardController.index);
 
 
 	/**
