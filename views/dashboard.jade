@@ -31,7 +31,7 @@ block content
           each article in articles
             tr
               td
-                a(href="http://getpocket.com/a/read/#{article.item_id}" target="_blank") #{article.given_title}
+                a(href="http://getpocket.com/a/read/#{article.item_id}" target="_blank") #{article.final_title}
               td=article.word_count
               td=article.estimatedTime
     

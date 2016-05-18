@@ -16,14 +16,14 @@ exports.index = function(req,res,next){
 	    		}
 	    	})
 
-	    	Article.find({}).where({'email':req.user.email}).exec( function(err,articles){
-	    		console.log( 'ARticles',articles );
+	    	Article.find({}).where({'email':req.user.email,'status':"0"}).exec( function(err,articles){
 	    		var timeRequired = 0;
 	    		if ( !articles.length ){
 	    			articles = []
 	    		} else {
 
 	    			articles.forEach( function(item){
+	    				item.final_title = item.resolved_title || item.given_title ||  item.resolved_url || 'Article';
 	    				item.estimatedTime = Math.floor(item.word_count/ 200) 
 	    				timeRequired += item.estimatedTime
 	    			})
