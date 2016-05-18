@@ -42,13 +42,36 @@ exports.postFileUpload = function(req, res, next) {
 };
 
 
+exports.connectPocket = function(req, res, next){
+  
+  var token = _.find(req.user.tokens, { kind: 'pocket' });
+
+  if ( !!token && !!token.accessToken ) {
+    res.render('statusPage',{
+      'title' : 'successfully connected your pocket account !'
+    })
+  } else {
+    res.render('statusPage',{
+      title : 'Error! failed connecting your pocket account. Try again, later'
+    })
+
+  }
+}
+
+/*
+  
+  GET /sync/pocket
+
+*/
+
 exports.syncPocket = function(req, res, next) {
   request = require('request');
 
   var token = _.find(req.user.tokens, { kind: 'pocket' });
 
   //console.log(req.user.tokens)
-  console.log('syncPocket' , token)
+  console.log('syncing pocket...' , token);
+
   if ( !!token && !!token.accessToken ) {
     request.get({ 
       url: 'https://getpocket.com/v3/get', 
@@ -62,8 +85,7 @@ exports.syncPocket = function(req, res, next) {
       if (err || request.statusCode !== 200) {
         return next(err);
       }
-
-      console.log(body)
+      //console.log(body)
       var response = JSON.parse(body);
       var articeList = []
       if ( !response ){
@@ -86,14 +108,9 @@ exports.syncPocket = function(req, res, next) {
       bulk.execute(function(err, bulkres){
           if (err) return next(err);
 
-          /*res.render('dashboard', {
-            title: 'Data Synced',
-            articles : []
-          });*/
           res.json({
             status: 'success'
           });
-          
       });
 
       /*Article.update(articeList, function(err,response,body){

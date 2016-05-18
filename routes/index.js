@@ -53,7 +53,9 @@ module.exports = function(app) {
 	//app.get('/api', apiController.getApi);
 	//app.get('/api/facebook', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.getFacebook);
 	//app.post('/api/upload', upload.single('myFile'), apiController.postFileUpload);
-	app.get('/api/pocket', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.syncPocket);
+	//app.get('/api/pocket', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.syncPocket);
+	app.get('/connect/pocket', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.connectPocket);
+	app.get('/sync/pocket', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.syncPocket);
 
 	/**
 	 * OAuth authentication routes. (Sign in)
@@ -72,11 +74,17 @@ module.exports = function(app) {
 	 * OAuth authorization routes. (API examples)
 	 */
 	app.get('/auth/pocket', passport.authenticate('pocket',{failureRedirect : '/'}), function(req, res) {
-	 res.redirect('/api/pocket');
+	 res.redirect('/connect/pocket');
 	});
 	app.get('/auth/pocket/callback', passport.authenticate('pocket', { failureRedirect: '/login' }),
 	function(req, res) {
-	    res.redirect('/api/pocket');
+	    res.redirect('/connect/pocket');
+	});
+
+	app.get('/status',function(req,res){
+		res.render('statusPage',{
+      		title : 'Error! failed connecting your pocket account. Try again, later'
+    	})
 	});
 
 	//Route not found -- Set 404
