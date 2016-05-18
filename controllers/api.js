@@ -48,19 +48,22 @@ exports.syncPocket = function(req, res, next) {
   var token = _.find(req.user.tokens, { kind: 'pocket' });
 
   //console.log(req.user.tokens)
-  console.log(token)
+  console.log('syncPocket' , token)
   if ( !!token && !!token.accessToken ) {
     request.get({ 
       url: 'https://getpocket.com/v3/get', 
       qs: {
         access_token: token.accessToken, 
         consumer_key: process.env.POCKET_CONSUMER_KEY, 
-        count:"10",
+        count:"1000",
+        state:"all",
         detailType:"complete" }
       }, function(err, request, body) {
-      if (err) {
+      if (err || request.statusCode !== 200) {
         return next(err);
       }
+
+      console.log(body)
       var response = JSON.parse(body);
       var articeList = []
       if ( !response ){
@@ -73,7 +76,27 @@ exports.syncPocket = function(req, res, next) {
           ) 
       })
 
-      Article.create(articeList, function(err,response,body){
+      var bulk = Article.collection.initializeUnorderedBulkOp();
+      
+      articeList.forEach(function(record){
+        var query = {};
+        query['item_id'] = record['item_id'];
+        bulk.find(query).upsert().updateOne( record );
+      });
+      bulk.execute(function(err, bulkres){
+          if (err) return next(err);
+
+          /*res.render('dashboard', {
+            title: 'Data Synced',
+            articles : []
+          });*/
+          res.json({
+            status: 'success'
+          });
+          
+      });
+
+      /*Article.update(articeList, function(err,response,body){
         if (err){
           return next(err);
         }
@@ -83,7 +106,7 @@ exports.syncPocket = function(req, res, next) {
           response: JSON.stringify(body)
         });
 
-      })      
+      })*/      
       
       //Article.collection.insert( articeList, function(err,request,body){
       

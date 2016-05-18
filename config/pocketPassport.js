@@ -1,3 +1,4 @@
+var _ = require('lodash');
 
 var passport = require('passport');
 var PocketStrategy = require('passport-pocket');
@@ -9,9 +10,14 @@ passport.use( 'pocket', new PocketStrategy({
     callbackURL    : process.env.POCKET_CALLBACK_URL
   },function(req, username, accessToken, done) {
     
-    console.log("passport-pocket",req.user, arguments);
+    console.log("passport-pocket",req, arguments);
 
     User.findById(req.user._id, function(err, user) {
+
+      _.remove(req.user.tokens , function(token){
+        return token.kind == 'pocket'
+      })
+
       user.tokens.push({ kind: 'pocket', accessToken: accessToken });
       user.save(function(err) {
         done(err, user);
