@@ -2,7 +2,10 @@ var User = require('../models/User');
 
 var Article = require('../models/Article');
 
+var React = require('react');
+var ReactDOMServer = require('react-dom/server');
 
+var DashboardHeader = React.createFactory(require('../app/components/dashboard/DashboardHeader.jsx'));
 
 exports.index = function(req,res,next){
 	if (  !!req.user ){
@@ -28,11 +31,16 @@ exports.index = function(req,res,next){
 	    				timeRequired += item.estimatedTime;
 	    			});
 	    		}
+				var dashboardHeaderHtml = ReactDOMServer.renderToString(DashboardHeader({
+					title : 'Dashboard',
+					pocketConnected: pocketConnected,
+		  			accessToken : accessToken
+				}));
+
+				console.log(dashboardHeaderHtml);
 
 	    		res.render('dashboard',{
-		  			pocketConnected: pocketConnected,
-		  			accessToken : accessToken,
-		  			title : 'Dashboard',
+	    			dashboardHeaderHtml : dashboardHeaderHtml,		  				  			
 		  			articleCount : articles.length,
 		  			timeRequired : timeRequired,
 		  			articles : articles
