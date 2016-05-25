@@ -3,7 +3,7 @@
  */
 var homeController = require('../controllers/home');
 var userController = require('../controllers/user');
-var apiController = require('../controllers/api');
+var pocketApiController = require('../controllers/pocketApi');
 var contactController = require('../controllers/contact');
 var dashboardController = require('../controllers/dashboard')
 
@@ -54,8 +54,8 @@ module.exports = function(app) {
 	//app.get('/api/facebook', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.getFacebook);
 	//app.post('/api/upload', upload.single('myFile'), apiController.postFileUpload);
 	//app.get('/api/pocket', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.syncPocket);
-	app.get('/connect/pocket', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.connectPocket);
-	app.get('/sync/pocket', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.syncPocket);
+	app.get('/connect/pocket', passportConfig.isAuthenticated, passportConfig.isAuthorized, pocketApiController.connectPocket);
+	app.get('/sync/pocket', passportConfig.isAuthenticated, passportConfig.isAuthorized, pocketApiController.syncPocket);
 
 	/**
 	 * OAuth authentication routes. (Sign in)

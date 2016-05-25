@@ -13,7 +13,11 @@ var articleSchema = new mongoose.Schema({
   resolved_url: String,
   resolved_title: String,
   events: Array,
-  email : String
+  email : String,
+  time_updated: String,
+  time_added: String,
+  status: String,
+  sort_id: Number
 });
 
 

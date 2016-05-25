@@ -16,6 +16,7 @@ var userSchema = new mongoose.Schema({
   linkedin: String,
   steam: String,
   tokens: Array,
+  lastPocketSync: String,
 
   profile: {
     name: { type: String, default: '' },
