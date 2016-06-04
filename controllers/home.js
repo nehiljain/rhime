@@ -1,17 +1,16 @@
+var debug = require('debug')('rhime:controller:home');
 var User = require('../models/User');
 
 /**
-*	GET /
-*
+* GET /
 */
 
 exports.index = function(req,res,next){
-  console.log(req.user)
-  if ( !!req.user ) {
-  	res.redirect('/dashboard');
-  } else {
-    res.render('home',{
-    })
-  }
-	
+	debug(req.user)
+	if ( !!req.user ) {
+		res.redirect('/dashboard');
+	} else {
+		res.render('home',{
+		})
+	}
 }

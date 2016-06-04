@@ -4,6 +4,7 @@ var crypto = require('crypto');
 var nodemailer = require('nodemailer');
 var passport = require('passport');
 var User = require('../models/User');
+var debug = require('debug')('rhime:controller:User');
 
 //var React = require('react/addons'),
 //ReactApp = React.createFactory(require('../app/components/ReactApp'));
@@ -40,8 +41,10 @@ exports.postLogin = function(req, res, next) {
   //console.log(errors);
   passport.authenticate('local', function(err, user, info) {
     if (err) {
+      debug(err);
       return next(err);
     }
+    debug(user);
     if (!user) {
       req.flash('errors', info);
       return res.redirect('/login');

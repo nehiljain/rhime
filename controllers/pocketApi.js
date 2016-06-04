@@ -1,11 +1,9 @@
+var debug = require('debug')('rhime:controller:api');
 var _ = require('lodash');
 var async = require('async');
 
 var Article = require('../models/Article');
 var User = require('../models/User');
-
-var debug = require('debug')('rhime:controller:api');
-
 
 /*
 	GET /connect/pocket

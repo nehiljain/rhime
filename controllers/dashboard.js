@@ -1,3 +1,4 @@
+var debug = require('debug')('rhime:controller:dashboard');
 var React = require('react');
 var ReactDOMServer = require('react-dom/server');
 
@@ -7,7 +8,6 @@ var Article = require('../models/Article');
 
 var _ = require('lodash');
 var timestamp = require('unix-timestamp');
-var debug = require('debug')('rhime:controller:dashboard');
 
 exports.index = function(req,res,next){
 	
@@ -29,10 +29,8 @@ exports.index = function(req,res,next){
 
     	Article.find({}).where({'email':req.user.email,'status':"0"}).exec( function(err,articles){
     		var timeRequired = 0;
-    		if ( !articles.length ){
-    			articles = [];
-    		} else {
-
+            var sortedArticles = [];
+    		if ( !!articles.length ){
     			articles.forEach( function(item){
     				item.final_title = item.resolved_title || item.given_title ||  item.resolved_url || 'Article';
     				item.estimatedTime = Math.ceil(item.word_count/ USER_WORD_COUNT);
@@ -41,7 +39,7 @@ exports.index = function(req,res,next){
     				item.timeAdded = timestamp.toDate(Number( item.time_added))
     			});
 
-    			var sortedArticles = _.sortBy(articles, function(o) { return o.sort_id; });
+    			sortedArticles = _.sortBy(articles, function(o) { return o.sort_id; });
 
     		}
     		
