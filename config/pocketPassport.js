@@ -11,7 +11,7 @@ passport.use( 'pocket', new PocketStrategy({
 		callbackURL    : process.env.POCKET_CALLBACK_URL
 	},function(req, username, accessToken, done) {
 		
-		debug("passport-pocket",req, arguments);
+		debug("passport-pocket",req.user, username, accessToken);
 
 		User.findById(req.user._id, function(err, user) {
 

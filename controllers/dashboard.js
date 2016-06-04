@@ -11,7 +11,7 @@ var timestamp = require('unix-timestamp');
 
 exports.index = function(req,res,next){
 	
-	if (  !!req.user || !!req.user.email ){
+	if (  !!req.user && !!req.user.email ){
 		
 		var USER_WORD_COUNT = 200;
 		debug('user from req object-->',req.user);
@@ -43,7 +43,7 @@ exports.index = function(req,res,next){
 
     		}
     		
-    		debug('found articles!');
+    		debug('found articles:',sortedArticles.length);
 			
 			var dashboardHeaderHtml = ReactDOMServer.renderToString(DashboardHeader({
 				title : 'Dashboard',
