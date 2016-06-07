@@ -45,7 +45,7 @@ exports.syncPocket = function(req, res, next) {
 			detailType:"complete"
 		};
 
-		if( !!req.user.lastPocketSync ){
+		if( !!req.user.lastPocketSync ) {
 			qs.since = req.user.lastPocketSync;			
 		}
 
@@ -78,16 +78,29 @@ exports.syncPocket = function(req, res, next) {
 				var query = {};
 				query['item_id'] = record['item_id'];
 				// bulk.find(query).upsert().updateOne( record );
-				bulk.update(
-					query,
-					{
-						$set: {
-							"status": record["status"],
-							"item_delete_approx": latestPocketSync
+				if (record['status'] === '2') {
+					bulk.update(
+						query,
+						{
+							$set: {
+								"status": record["status"],
+								"item_delete_approx": latestPocketSync,
+								"email": record["email"]
+							}
+						},
+						{
+							upsert: true
 						}
-					}
-				);
-
+					);
+				} else {
+					bulk.update(
+						query,
+						record,
+						{
+							upsert: true
+						}
+					);
+				}
 			});
 			if ( articeList.length != 0 ){
 				bulk.execute(function(err, bulkres){
