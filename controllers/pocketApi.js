@@ -77,7 +77,17 @@ exports.syncPocket = function(req, res, next) {
 			articeList.forEach(function(record){
 				var query = {};
 				query['item_id'] = record['item_id'];
-				bulk.find(query).upsert().updateOne( record );
+				// bulk.find(query).upsert().updateOne( record );
+				bulk.update(
+					query,
+					{
+						$set: {
+							"status": record["status"],
+							"item_delete_approx": latestPocketSync
+						}
+					}
+				);
+
 			});
 			if ( articeList.length != 0 ){
 				bulk.execute(function(err, bulkres){
