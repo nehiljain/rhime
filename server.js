@@ -67,6 +67,7 @@ app.use(expressValidator());
 app.use(session({
   resave: true,
   saveUninitialized: true,
+  unset : 'destroy',
   secret: process.env.SESSION_SECRET,
   store: new MongoStore({
     url: process.env.MONGODB || process.env.MONGOLAB_URI,
