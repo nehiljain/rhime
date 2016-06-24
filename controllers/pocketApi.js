@@ -46,7 +46,7 @@ exports.syncPocket = function(req, res, next) {
 		};
 
 		if( !!req.user.lastPocketSync ) {
-			qs.since = req.user.lastPocketSync;
+			qs.since = Math.round( Date.parse(req.user.lastPocketSync)/1000 );
 		}
 
 		var latestPocketSync = new Date().toISOString();
@@ -105,19 +105,15 @@ exports.syncPocket = function(req, res, next) {
 				email: 'b@b.com'
 				}
 			}
-
-
 			*/
 			articleList.forEach(function(record){
 				console.log(record);
 				var query = {};
 				query['item_id'] = record['item_id'];
 
-                if (!!record['time_read'] and record['time_read'] != 0) {
-                    record
-                    _.(['time_read', 'time_updated','time_added']).forEach(function(key) {
+                    ['time_read', 'time_updated','time_added'].forEach(function(key) {
                          if(!!record[key] && record[key] != '0' && _.isString(record[key])) {
-                                record[key] = new Date(a*1000).toISOString();
+                                record[key] = new Date(record[key]*1000).toISOString();
                          }
                     });
 
