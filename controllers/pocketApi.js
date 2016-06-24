@@ -10,7 +10,7 @@ var User = require('../models/User');
 */
 
 exports.connectPocket = function(req, res, next){
-	
+        debug('connectPocket....');	
 	var token = _.find(req.user.tokens, { kind: 'pocket' });
 
 	if ( !!token && !!token.accessToken ) {
@@ -61,26 +61,66 @@ exports.syncPocket = function(req, res, next) {
 				return next(err);
 			}
 			var response = JSON.parse(body);
-			var articeList = []
+			var articleList = []
 			if ( !response ){
 				return next();
 			}
 
 			Object.keys( response.list ).forEach( function(item){
-				articeList.push (
+				articleList.push (
 					Object.assign({}, response.list[item], {email : req.user.email })
 					) 
 			})
 
 			var bulk = Article.collection.initializeUnorderedBulkOp();
 			
-			articeList.forEach(function(record){
+			/*
+			{ 
+				item_id: '1306626289',
+				resolved_id: '1306626289',
+				given_url: 'http://www.inc.com/lolly-daskal/11-ways-you-can-succeed-with-zero-talent.html',
+				given_title: '',
+				favorite: '0',
+				status: '0',
+				time_added: '1466736374',
+				time_updated: '1466736371',
+				time_read: '0',
+				time_favorited: '0',
+				sort_id: 1,
+				resolved_title: '11 Ways You Can Succeed With Zero Talent',
+				resolved_url: 'http://www.inc.com/lolly-daskal/11-ways-you-can-succeed-with-zero-talent.html',
+				excerpt: 'Most people think in order to succeed you need talent. And it\'s true that for most business and management and leadership success you do need at least some degree of talent.  1. Believe in yourself.',
+				is_article: '1',
+				is_index: '0',
+				has_video: '0',
+				has_image: '0',
+				word_count: '942',
+				authors: 
+				{ '21537297': 
+				  { item_id: '1306626289',
+				    author_id: '21537297',
+				    name: 'Lolly Daskal',
+				    url: 'http://www.inc.com/author/lolly-daskal' } 
+				   },
+				email: 'b@b.com' 
+				}
+			}
+
+
+			*/
+			articleList.forEach(function(record){
+				console.log(record)
 				var query = {};
 				query['item_id'] = record['item_id'];
 				// bulk.find(query).upsert().updateOne( record );
 				if (record['status'] === '2') {
-					bulk.update(
-						query,
+					bulk.find(query).upsert().updateOne({ 
+							$set: {
+								"status": record["status"],
+								"item_delete_approx": latestPocketSync,
+								"email": record["email"]
+							}});
+					/*bulk.find(query).update(
 						{
 							$set: {
 								"status": record["status"],
@@ -91,18 +131,19 @@ exports.syncPocket = function(req, res, next) {
 						{
 							upsert: true
 						}
-					);
+					);*/
 				} else {
-					bulk.update(
-						query,
+
+					bulk.find(query).upsert().updateOne( record );
+					/*bulk.find(query).update(
 						record,
 						{
 							upsert: true
 						}
-					);
+					);*/
 				}
 			});
-			if ( articeList.length != 0 ){
+			if ( articleList.length != 0 ){
 				bulk.execute(function(err, bulkres){
 					if (err) return next(err);
 					debug( 'bulk update!', bulkres);

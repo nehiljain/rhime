@@ -58,6 +58,7 @@ exports.isAuthorized = function(req, res, next) {
 		return next();
 	} else {
 		res.redirect('/auth/' + provider);
+		return;
 	}
 	
 	if (_.find(req.user.tokens, { kind: provider })) {
