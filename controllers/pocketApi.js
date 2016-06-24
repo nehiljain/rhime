@@ -10,7 +10,7 @@ var User = require('../models/User');
 */
 
 exports.connectPocket = function(req, res, next){
-	
+
 	var token = _.find(req.user.tokens, { kind: 'pocket' });
 
 	if ( !!token && !!token.accessToken ) {
@@ -38,23 +38,23 @@ exports.syncPocket = function(req, res, next) {
 	if ( !!token && !!token.accessToken ) {
 
 		var qs = {
-			access_token: token.accessToken, 
-			consumer_key: process.env.POCKET_CONSUMER_KEY, 
+			access_token: token.accessToken,
+			consumer_key: process.env.POCKET_CONSUMER_KEY,
 			count:"1000",
 			state:"all",
 			detailType:"complete"
 		};
 
 		if( !!req.user.lastPocketSync ) {
-			qs.since = req.user.lastPocketSync;			
+			qs.since = req.user.lastPocketSync;
 		}
 
-		var latestPocketSync =  Math.round( new Date().getTime()/1000 );
+		var latestPocketSync = new Date().toISOString();
 
 		debug('queryString: ', qs);
 
-		request.get({ 
-			url: 'https://getpocket.com/v3/get', 
+		request.get({
+			url: 'https://getpocket.com/v3/get',
 			qs: qs
 			}, function(err, request, body) {
 			if (err || request.statusCode !== 200) {
@@ -69,11 +69,11 @@ exports.syncPocket = function(req, res, next) {
 			Object.keys( response.list ).forEach( function(item){
 				articeList.push (
 					Object.assign({}, response.list[item], {email : req.user.email })
-					) 
+					)
 			})
 
 			var bulk = Article.collection.initializeUnorderedBulkOp();
-			
+
 			articeList.forEach(function(record){
 				var query = {};
 				query['item_id'] = record['item_id'];
@@ -129,19 +129,19 @@ exports.syncPocket = function(req, res, next) {
 				if (err){
 					return next(err);
 				}
-				
+
 				res.render('dashboard', {
 					title: 'Data Synced',
 					response: JSON.stringify(body)
 				});
 
-			})*/      
-			
+			})*/
+
 			//Article.collection.insert( articeList, function(err,request,body){
-			
+
 			//console.log('POCKET',response.list);
-			
-		});  
+
+		});
 	}
-	
+
 };

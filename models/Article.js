@@ -14,8 +14,9 @@ var articleSchema = new mongoose.Schema({
   resolved_title: String,
   events: Array,
   email : String,
-  time_updated: String,
-  time_added: String,
+  time_updated: Date,
+  time_added: Date,
+  time_deleted: Date,
   status: String,
   sort_id: Number
 });
