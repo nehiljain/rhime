@@ -2,21 +2,27 @@
  * Module dependencies.
  */
 var express = require('express');
-var compress = require('compression');
+
 var session = require('express-session');
 var bodyParser = require('body-parser');
+var dotenv = require('dotenv');
 
+
+/* Dont know*/
+var compress = require('compression');
+var lusca = require('lusca');
 var logger = require('morgan');
 var errorHandler = require('errorhandler');
-var lusca = require('lusca');
-var dotenv = require('dotenv');
+var expressValidator = require('express-validator');
+var sass = require('node-sass-middleware');
+
+
+
 var MongoStore = require('connect-mongo/es5')(session);
 var flash = require('express-flash');
 var path = require('path');
 var mongoose = require('mongoose');
 var passport = require('passport');
-var expressValidator = require('express-validator');
-var sass = require('node-sass-middleware');
 
 //require('node-jsx').install();
 require('node-jsx').install({extension: '.jsx'});
@@ -40,7 +46,7 @@ var app = express();
 /**
  * Connect to MongoDB.
  */
-mongoose.connect(process.env.MONGODB || process.env.MONGOLAB_URI);
+mongoose.connect(process.env.MONGODB);
 mongoose.connection.on('error', function() {
   console.log('MongoDB Connection Error. Please make sure that MongoDB is running.');
   process.exit(1);
@@ -54,6 +60,9 @@ app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
+// Disable etag headers on responses
+app.disable('etag');
+
 app.use(compress());
 app.use(sass({
   src: path.join(__dirname, 'public'),
@@ -64,13 +73,14 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(expressValidator());
+
 app.use(session({
   resave: true,
   saveUninitialized: true,
   unset : 'destroy',
   secret: process.env.SESSION_SECRET,
   store: new MongoStore({
-    url: process.env.MONGODB || process.env.MONGOLAB_URI,
+    url: process.env.MONGODB,
     autoReconnect: true
   })
 }));
