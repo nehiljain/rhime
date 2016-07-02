@@ -44,10 +44,11 @@
     "passport-pocket": "git://github.com/niceilm/passport-pocket.git",
     "react": "^15.1.0",
     "react-bootstrap": "^0.29.4",
+    "react-dom": "^15.2.0",
     "react-router": "^2.4.0",
     "request": "^2.72.0",
     "unix-timestamp": "^0.2.0",
-    "validator": "^5.2.0",
+    "validator": "^5.2.0"
   },
   "devDependencies": {
     "babel-core": "^6.8.0",
