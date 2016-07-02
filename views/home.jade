@@ -1,32 +1,12 @@
 extends layout
 
 block content
-  .jumbotron
     .container
-      h1 Improve Your Reading!
-      p
-        | A simple app to help you analyse and enhance your reading hygiene.
-      
-  .container
-    // Example row of columns
-    .row
-      .col-md-4
-        h2 Step 1
-        p
-          | Create an account. 
-        p
-          a.btn.btn-default(href='/signup', role='button') Signup
-      .col-md-4
-        h2 Step 2
-        p
-          | Connect your pocket account.
-        p
-          a.btn.btn-default(href='', role='button') Connect Pocket
-      .col-md-4
-        h2 Step 3
-        p
-          | Enjoy your sorted list of articles
-        p
-          a.btn.btn-default(href='/login', role='button') Dashboard
+        .row.text-center.top-buffer-100
+            .col-md-6
+                h4 Improve your reading habits in real time.
+                p
+                  | Just connect your Pocket account to analyse and enhance your reading hygiene.           
 
-  // /container
+            .col-md-6
+                include ./partials/signupForm.jade
