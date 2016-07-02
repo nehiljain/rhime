@@ -1,7 +1,9 @@
 var React = require( 'react');
 var ReactDOM  = require('react-dom');
-var App = require('./components/dashboard/DashboardHeader.jsx');
+var App = require('./components/dashboard/Dashboard.jsx');
 
-if( document.getElementById('dashboardHeader') ){
-	ReactDOM.render(<App />, document.getElementById('dashboardHeader') );	
+var initialState = JSON.parse(document.getElementById('initial-state').innerHTML);
+
+if( document.getElementById('dashboard') ){
+	ReactDOM.render(<App dashboardState={initialState}/>, document.getElementById('dashboard') );	
 }

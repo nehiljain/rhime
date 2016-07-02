@@ -7,8 +7,9 @@ html
     meta(name='csrf-token', content=_csrf)
     title #{title} - Hackathon Starter
     link(rel='shortcut icon', href='/favicon.png')
-    link(rel='stylesheet', href='/css/main.css')
+    link(rel='stylesheet', href='/css/main.css')    
     link(rel='stylesheet', href='/css/journal-bootstrap.min.css')
+    link(rel='stylesheet', href='/css/custom.css')
 
   body
     include partials/header
@@ -19,9 +20,14 @@ html
 
     include partials/footer
 
+    script#initial-state(type='application/json').
+      !{state}
+
     script(src='/js/lib/jquery-2.2.0.min.js')
     script(src='/js/lib/bootstrap.min.js')
+    script(src='https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js')
     script(src='/js/bundle.js')
+
 
     // Google Analytics: change UA-XXXXX-X to be your site's ID
     script.

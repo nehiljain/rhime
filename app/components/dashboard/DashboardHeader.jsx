@@ -1,59 +1,20 @@
 var React = require('react');
-//import React , { Component } from 'react';
-
-
-/*class DashboardHeader extends Component {
-
-	componentDidMount(){
-		console.log('DashboardHeader');
-		console.log(this.props)
-	}
-
-	syncPocket(){
-		console.log('syncPocket button clicked')
-	}
-
-	render(){
-		let pocketControls = (
-			<div>
-			<p> We need your pocket account to give you insights </p>
-			<a className="btn btn-default" href='/connect/pocket' role='button'> Connect </a>
-			</div>
-		);
-
-		if ( this.props.pocketConnected || true ){
-			pocketControls = ( 
-			<div>
-				<button className="btn btn-default" role='button' onClick={this.syncPocket}> Sync Pocket </button>
-				<p>{this.props.accessToken} </p>
-			</div>
-		);
-		}
-		return (
-		<div className="row">
-			<div className="col-sm-6">
-				<h2>{this.props.title }</h2>
-			</div>
-			<div className="col-sm-6">
-				{ pocketControls }
-			</div>
-		</div>
-		)
-	}
-}*/
 
 var DashboardHeader = React.createClass({
 
-	componentDidMount: function () {
-		console.log('DashboardHeader');
-		console.log('sd',this.props)
-
-	},
-
 	syncPocket:function(){
-		console.log('syncPocket button clicked')
+		//var hostName = window.location.hostname;//'http://127.0.0.1:3000'
+		var request = new Request(window.location.protocol+'//'+window.location.hostname+'/sync/pocket',{
+			method : 'GET',
+			credentials : 'same-origin'
+		});
+		return fetch(request).then(function(data){
+			console.log(data);
+		});
 	},
 	render: function () {
+		//console.log(this.props);
+	
 		var pocketControls = (
 			<div>
 			<p> We need your pocket account to give you insights </p>
@@ -61,19 +22,20 @@ var DashboardHeader = React.createClass({
 			</div>
 		);
 
-		if ( this.props.pocketConnected || true ){
+		if ( this.props.dashboardState.pocketConnected ){
 			pocketControls = ( 
 			<div>
 				<button className="btn btn-default" role='button' onClick={this.syncPocket}> Sync Pocket </button>
-				<p>{this.props.accessToken} </p>
 			</div>
 		);
 		} 
 
 		return (
-		<div className="row">
+		<div className="row r-dashboard-header top-buffer">
 			<div className="col-sm-6">
-				<h2>{this.props.title }</h2>
+				<input type="text" placeholder="Article..."/>
+				<input type="text" placeholder="Tags..."/>
+				<button className="btn btn-danger"> Go </button>
 			</div>
 			<div className="col-sm-6">
 				{ pocketControls }

@@ -1,32 +1,8 @@
 extends layout
 
 block content
-  div#dashboardHeader
-    div!= dashboardHeaderHtml
-
-  hr
-  .row
-    .col-sm-6
-      h2 Unread Articles - #{articleCount}
-    .col-sm-6
-      h2 Time required - #{timeRequired} mins
-
-    .col-sm-12
-      table.table.table-responsive
-        thead
-          tr
-            td Title
-            td Word Count
-            td time
-        tbody
-          each article in articles
-            tr
-              td=article.timeAdded
-              td
-                a(href="http://getpocket.com/a/read/#{article.item_id}" target="_blank") #{article.final_title}
-              td=article.word_count
-              td=article.estimatedTime
-
+  div#dashboard
+    div!= dashboardHtml
     
     
     
