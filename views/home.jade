@@ -1,92 +1,32 @@
-doctype html
-html(lang='en')
-  head
-    meta(charset='utf-8')
-    meta(http-equiv='X-UA-Compatible', content='IE=edge')
-    meta(name='viewport', content='width=device-width, initial-scale=1')
-    meta(name='description', content='')
-    meta(name='author', content='')
-    link(rel='icon', href='#{pathToAssets}/docs/favicon.ico')
-    title Jumbotron Template for Bootstrap
-    // Bootstrap core CSS
-    link(rel='stylesheet', href='/css/main.css')
-    link(rel='stylesheet', href='/css/journal-bootstrap.min.css')
-    // Custom styles for this template
-    //if lt IE 9
-      script(src='#{pathToAssets}/docs/assets/js/ie8-responsive-file-warning.js')
-    script(src='#{pathToAssets}/docs/assets/js/ie-emulation-modes-warning.js')
-    // IE10 viewport hack for Surface/desktop Windows 8 bug
-    script(src='#{pathToAssets}/docs/assets/js/ie10-viewport-bug-workaround.js')
-    // HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries
-    //if lt IE 9
-      script(src='https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js')
-      script(src='https://oss.maxcdn.com/respond/1.4.2/respond.min.js')
-  body
-    .navbar.navbar-fixed-top(role='navigation')
-      .container
-        .navbar-header
-          button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-collapse')
-            span.sr-only Toggle navigation
-            span.icon-bar
-            span.icon-bar
-            span.icon-bar
-          a.navbar-brand(href='#') R.H.I.M.E
-        .navbar-collapse.collapse
-          ul.nav.navbar-nav.navbar-right
-            if !user
-              li(class=(title == 'Login') ? 'active' : undefined)
-                a(href='/login') Login
-              li(class=(title == 'Create Account') ? 'active' : undefined)
-                a(href='/signup') Create Account
-            else
-              li.dropdown(class=(title == 'Account Management') ? 'active' : undefined)
-                a.dropdown-toggle(href='#', data-toggle='dropdown')
-                  if user.profile.picture
-                    img(src='#{user.profile.picture}')
-                  else
-                    img(src='#{user.gravatar(60)}')
-                  | #{user.profile.name || user.email || user.id}&nbsp;
-                  i.caret
-                ul.dropdown-menu
-                  li
-                    a(href='/account') My Account
-                  li.divider
-                  li
-                    a(href='/logout') Logout
-        // /.navbar-collapse
-    // Main jumbotron for a primary marketing message or call to action
-    .jumbotron
-      .container
-        h1 Improve Your Reading!
-        p
-          | A simple app to help you analyse and enhance your reading hygiene.
-        
+extends layout
+
+block content
+  .jumbotron
     .container
-      // Example row of columns
-      .row
-        .col-md-4
-          h2 Step 1
-          p
-            | Create an account. 
-          p
-            a.btn.btn-default(href='/signup', role='button') Signup
-        .col-md-4
-          h2 Step 2
-          p
-            | Connect your pocket account.
-          p
-            a.btn.btn-default(href='', role='button') Connect Pocket
-        .col-md-4
-          h2 Step 3
-          p
-            | Enjoy your sorted list of articles
-          p
-            a.btn.btn-default(href='/login', role='button') Dashboard
-      hr
-      footer
-        p &copy; Team Bros!
-    // /container
-    
-    // Bootstrap core JavaScript
-    // ==================================================
-    script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js')
+      h1 Improve Your Reading!
+      p
+        | A simple app to help you analyse and enhance your reading hygiene.
+      
+  .container
+    // Example row of columns
+    .row
+      .col-md-4
+        h2 Step 1
+        p
+          | Create an account. 
+        p
+          a.btn.btn-default(href='/signup', role='button') Signup
+      .col-md-4
+        h2 Step 2
+        p
+          | Connect your pocket account.
+        p
+          a.btn.btn-default(href='', role='button') Connect Pocket
+      .col-md-4
+        h2 Step 3
+        p
+          | Enjoy your sorted list of articles
+        p
+          a.btn.btn-default(href='/login', role='button') Dashboard
+
+  // /container
