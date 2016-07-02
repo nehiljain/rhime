@@ -37,7 +37,7 @@ var ArticleList = React.createClass({
 				<td><a href={"http://getpocket.com/a/read/" + a.item_id} target="_blank">{a.resolved_title}</a></td>
 				<td>{tags.join(",")}</td>
 				<td>{Math.round(a.word_count/250)}</td>
-				<td>{new Date(a.time_added*1000).toString()}</td>
+				<td>{new Date(a.time_added).toString()}</td>
 				</tr>);
 		})
 
