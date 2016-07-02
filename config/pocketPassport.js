@@ -8,7 +8,8 @@ var User = require('../models/User');
 
 passport.use( 'pocket', new PocketStrategy({
 		consumerKey    : process.env.POCKET_CONSUMER_KEY,
-		callbackURL    : process.env.POCKET_CALLBACK_URL
+		callbackURL    : process.env.POCKET_CALLBACK_URL,
+		passReqToCallback: 1
 	},function(req, username, accessToken, done) {
 		
 		debug("passport-pocket",req.user, username, accessToken);
