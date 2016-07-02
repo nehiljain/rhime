@@ -1,6 +1,7 @@
 var bcrypt = require('bcrypt-nodejs');
 var crypto = require('crypto');
 var mongoose = require('mongoose');
+var _ = require('lodash');
 
 var userSchema = new mongoose.Schema({
   email: { type: String, unique: true },
@@ -30,6 +31,7 @@ var userSchema = new mongoose.Schema({
  * Password hash middleware.
  */
 userSchema.pre('save', function(next) {
+  console.log('save handler called')
   var user = this;
   if (!user.isModified('password')) {
     return next();
@@ -46,6 +48,22 @@ userSchema.pre('save', function(next) {
       next();
     });
   });
+});
+
+
+
+/**
+ * lastsyncocket into isodate.
+ */
+userSchema.pre('update', function(next) {
+  var user = this;
+  if (!!user._update.$set['lastPocketSync']) {
+    var isoVersion = new Date(user._update.$set['lastPocketSync']).toISOString();
+    user._update.$set['lastPocketSync'] = isoVersion;
+    console.log('Update lastPocketSync', isoVersion);
+    return next();
+  }
+  next();
 });
 
 /**
