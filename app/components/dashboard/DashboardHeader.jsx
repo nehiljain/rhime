@@ -4,7 +4,7 @@ var DashboardHeader = React.createClass({
 
 	syncPocket:function(){
 		//var hostName = window.location.hostname;//'http://127.0.0.1:3000'
-		var request = new Request(window.location.protocol+'//'+window.location.hostname+'/sync/pocket',{
+		var request = new Request(window.location.protocol+'//'+window.location.host+'/sync/pocket',{
 			method : 'GET',
 			credentials : 'same-origin'
 		});
