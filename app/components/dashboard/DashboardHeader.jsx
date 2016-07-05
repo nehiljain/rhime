@@ -31,16 +31,22 @@ var DashboardHeader = React.createClass({
 		} 
 
 		return (
-		<div className="row r-dashboard-header top-buffer">
-			<div className="col-sm-6">
-				<input type="text" placeholder="Article..."/>
-				<input type="text" placeholder="Tags..."/>
-				<button className="btn btn-danger"> Go </button>
+			<div className="row r-dashboard-header top-buffer">
+				<div className="col-sm-6 col-md-12">
+					<div className="col-md-3">
+						<input type="text" className="datatableSearchBox" placeholder="Article..."/>
+					</div>
+					<div className="col-md-3">
+						<input type="text" placeholder="Tags..."/>
+					</div>
+					<div className="col-md-3">
+
+					</div>
+				</div>
+				<div className="col-sm-6">
+					{ pocketControls }
+				</div>
 			</div>
-			<div className="col-sm-6">
-				{ pocketControls }
-			</div>
-		</div>
 		)
 	}
 });

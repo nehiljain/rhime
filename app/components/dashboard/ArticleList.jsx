@@ -2,23 +2,26 @@ var React = require('react');
 var ArticleList = React.createClass({
 
 	componentDidMount: function () {
-		$('#example tfoot th').each( function () {
-        var title = $(this).text();
-        $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
-    } );
+		// $('#articleList tfoot th').each( function () {
+  //       	var title = $(this).text();
+  //       	$(this).html( '<input type="text" placeholder="Search Something'+title+'" />' );
+  //   	});
  
     // DataTable
-    var table = $('#example').DataTable();
+    var articleTable = $('#articleList').DataTable({
+    	"paging": true,
+    	"dom":' <"datatableSearchBox"f><"top"l>rt<"bottom"ip><"clear">'
+    });
  
+ 	$('#datatableSearchBox').keyup(function() {
+ 		console.log(this);
+	      articleTable.filter($(this).val()).draw() ;
+	});
     // Apply the search
-    table.columns().every( function () {
+    articleTable.columns().every( function () {
         var that = this;
- 
-        $( 'input', this.footer() ).on( 'keyup change', function () {
-            if ( that.search() !== this.value ) {
-                that.search( this.value ).draw();
-            }
-        });
+ 		
+        
     });
 	},
 	render: function () {
@@ -44,7 +47,7 @@ var ArticleList = React.createClass({
 		return (
 		<div className="row">
 			<div className="col-sm-12">
-				<table className="table table-responsive display" id="example" cellspacing="0" width="100%">
+				<table className="table table-responsive display" id="articleList" cellspacing="0" width="100%">
 					<thead>
 					  	<tr>
 							<td>Title</td>

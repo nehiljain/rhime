@@ -1,0 +1,126 @@
+
+article with Status x Counts for all emails
+db.articles.aggregate([
+	{$match: {status : '1'}},
+	{$group: {_id: "email", atl1_count :  {$sum: 1}}}
+])
+
+article with status x count for specific email
+db.articles.aggregate([
+	{$match: {
+				$and: [ 
+                        {email: 'selvam.palanimalai@gmail.com'}, 
+                        {status : '1'}
+                       ]
+              }
+    },
+	{$group: {_id: "$email", atl1_count :  {$sum: 1}}}
+])
+
+
+
+@Daily article count  with status x, and for email y
+
+db.articles.aggregate([
+	{
+		$match: {
+					$and: [ 
+                        {email: 'selvam.palanimalai@gmail.com'}, 
+                        {status : '1'}
+                       ]
+              	}
+	},
+	{
+		$group: {
+				_id: {
+						"email": "$email", 
+						"year" : {
+	                        $year : "$time_added"
+	                    },
+	                    "month": { 
+	                    	$month: '$time_added'
+	                    },
+	                    "dayOfYear" : {
+	                        $dayOfYear : "$time_added"
+	                    }
+                },
+			count :  {$sum: 1}
+		}
+	}
+	
+]);
+
+@weekly article count  with status x, and for email y
+db.articles.aggregate([
+	{
+		$match: {
+					$and: [ 
+                        {email: 'selvam.palanimalai@gmail.com'}, 
+                        {status : '1'}
+                       ]
+              	}
+	},
+	{
+		$group: {
+				_id: {
+						"email": "$email", 
+						"year" : {
+	                        $year : "$time_added"
+	                    },
+	                    "month": { 
+	                    	$month: '$time_added'
+	                    },
+	                    "week" : {
+	                        $week : "$time_added"
+	                    }
+                },
+			count :  {$sum: 1}
+		}
+	}
+	
+]);
+
+
+
+db.articles.aggregate([
+	{
+		$match: {status : '1'}
+	},
+	{
+		$group: {
+				_id: {
+						"email": "$email",
+						"year" : {
+	                        $year : "$time_added"
+	                    },
+	                    "dayOfYear" : {
+	                        $dayOfYear : "$time_added"
+	                    },
+                },
+			count :  {$sum: 1}
+		}
+	}
+])
+
+
+db.articles.find({status: "1"}).forEach(function(element) {
+ print(element.time_added);
+ element.time_added = ISODate(element.time_added);
+ db.articles.save(element);
+});
+
+
+
+
+----------------------------------------------------
+Total count by status of article for specific email
+----------------------------------------------------
+db.articles.aggregate([
+	{$match: {
+				$and: [ 
+                        {email: 'nehil@athletigen.com'}
+                       ]
+              }
+    },
+	{$group: {_id: "$status", count :  {$sum: 1}}}
+])
