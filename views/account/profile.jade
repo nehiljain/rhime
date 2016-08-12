@@ -2,7 +2,7 @@ extends ../layout
 
 block content
   .page-header
-    h3 Profile Information
+    h4 Profile Information
 
   form.form-horizontal(action='/account/profile', method='POST')
     input(type='hidden', name='_csrf', value=_csrf)
@@ -45,7 +45,7 @@ block content
           | Update Profile
 
   .page-header
-    h3 Change Password
+    h4 Change Password
 
   form.form-horizontal(action='/account/password', method='POST')
     input(type='hidden', name='_csrf', value=_csrf)
@@ -64,7 +64,7 @@ block content
           | Change Password
 
   .page-header
-    h3 Delete Account
+    h4 Delete Account
 
   form.form-horizontal(action='/account/delete', method='POST')
     .form-group
@@ -76,36 +76,11 @@ block content
           | Delete my account
 
   .page-header
-    h3 Linked Accounts
+    h4 Linked Accounts
   .form-horizontal
     .form-group
       .col-sm-offset-3.col-sm-4
-        if user.instagram
-          p: a.text-danger(href='/account/unlink/instagram') Unlink your Instagram account
+        if user.pocket
+          p: a.text-danger(href='/disconnect/pocket') Unlink your Pocket account
         else
-          p: a(href='/auth/instagram') Link your Instagram account
-      .col-sm-offset-3.col-sm-4
-        if user.google
-          p: a.text-danger(href='/account/unlink/google') Unlink your Google account
-        else
-          p: a(href='/auth/google') Link your Google account
-      .col-sm-offset-3.col-sm-4
-        if user.facebook
-          p: a.text-danger(href='/account/unlink/facebook') Unlink your Facebook account
-        else
-          p: a(href='/auth/facebook') Link your Facebook account
-      .col-sm-offset-3.col-sm-4
-        if user.twitter
-          p: a.text-danger(href='/account/unlink/twitter') Unlink your Twitter account
-        else
-          p: a(href='/auth/twitter') Link your Twitter account
-      .col-sm-offset-3.col-sm-4
-        if user.github
-          p: a.text-danger(href='/account/unlink/github') Unlink your GitHub account
-        else
-          p: a(href='/auth/github') Link your GitHub account
-      .col-sm-offset-3.col-sm-4
-        if user.linkedin
-          p: a.text-danger(href='/account/unlink/linkedin') Unlink your LinkedIn account
-        else
-          p: a(href='/auth/linkedin') Link your LinkedIn account
+          p: a(href='/connect/pocket') Link your Pocket account

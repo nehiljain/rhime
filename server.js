@@ -109,7 +109,12 @@ app.use(function(req, res, next) {
 });
 app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }));
 
+app.middlewares = require('./middlewares');
 
+app.use(function(req,res,next){
+  console.log(req.session);
+  next();
+})
 require('./routes/index')(app);
 
 /**
