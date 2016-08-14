@@ -188,7 +188,7 @@ exports.syncPocket = function(req, res, next) {
 
 exports.dailyCount = function(req, res, next){
     debug('daily_count');
-	var result = Articles.aggregate([
+	var result = Article.aggregate([
 		{
 			$match: {
 						$and: [
