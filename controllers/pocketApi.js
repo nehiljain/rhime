@@ -1,9 +1,32 @@
 var debug = require('debug')('rhime:controller:api');
 var _ = require('lodash');
 var async = require('async');
-
+var moment = require('moment');
 var Article = require('../models/Article');
 var User = require('../models/User');
+
+var util = require('util');
+
+
+var status_map = {
+	'unread' : '0',
+	'0' : '0',
+	'read' : '1',
+	'archived' : '1',
+	'1' : '1',
+	'deleted' : '2',
+	'2' : '2' 
+};
+
+
+
+
+var dateFromDay = function(year, day) {
+	var date = new Date(year, 0);
+	var result_date = new Date(date.setDate(day));
+	console.log(result_date);
+	return result_date.toString("yyyy-MM-dd");
+};
 
 /*
 	GET /connect/pocket
@@ -113,7 +136,7 @@ exports.syncPocket = function(req, res, next) {
 
                     ['time_read', 'time_updated','time_added'].forEach(function(key) {
                          if(!!record[key] && record[key] != '0' && _.isString(record[key])) {
-                                record[key] = new Date(record[key]*1000).toISOString();
+                                record[key] = new Date(record[key]*1000);
                          }
                     });
 
@@ -181,19 +204,36 @@ exports.syncPocket = function(req, res, next) {
 /*
 	
 	Metrics:
-	daily_count
+	daily_count for a user and given article status
+	allowed status
+	unread, read, archived, deleted or 0,1,2
 	Daily Count API
-	GET /v1/stats/pocket/{user_id}/daily_count/
+	GET /v1/stats/pocket/{user_id}/daily_count/{article_status}
+	?&start-date=2016-04-02
+	&end-date=2016-08-01
+	TODO: Implement Tag filtering
  */
 
 exports.dailyCount = function(req, res, next){
     debug('daily_count');
-	var result = Article.aggregate([
+
+    var start_date = !!req.query['start-date'] ? new Date(req.query['start-date']) : new Date("2005-01-01");
+    var end_date = !!req.query['end-date'] ? new Date(req.query['end-date']) : new Date("2100-01-01");
+    if (!!req.params.article_status && req.params.article_status in status_map) {
+    	var article_status = status_map[req.params.article_status];
+    } else {
+    	console.error(err.stack);
+  		res.status(500).send('Query is incorrect');
+    }
+
+	Article.aggregate([
 		{
 			$match: {
 						$and: [
-	                        {email: 'selvam.palanimalai@gmail.com'},
-	                        {status : '1'}
+	                        {email: req.params.email},
+	                        {status : article_status},
+	                        {time_added: {$gte: start_date}},
+	                        {time_added: {$lte: end_date}}
 	                       ]
               		}
 		},
@@ -204,9 +244,6 @@ exports.dailyCount = function(req, res, next){
 							"year" : {
 		                        $year : "$time_added"
 		                    },
-		                    "month": {
-		                    	$month: '$time_added'
-		                    },
 		                    "dayOfYear" : {
 		                        $dayOfYear : "$time_added"
 		                    }
@@ -214,9 +251,25 @@ exports.dailyCount = function(req, res, next){
 				count :  {$sum: 1}
 			}
 		}
-	]);
-
-	debug('result', result);
-	res.json(result);
+	], function (err, db_res) {
+        if (err) {
+            next(err);
+        } else {
+        	debug('result', result);
+        	var result = [];
+        	db_res.forEach( function(record) {
+        		var record_date = moment(record._id.year+ ":" + record._id.dayOfYear, "YYYY:DDDD");
+        		result.push({
+        			id: record._id.email,
+        			date: moment(record_date).format("YYYY-MM-DD"),
+        			count: record.count
+        		});
+        	});
+            res.json(result);
+        }
+    });
 };
+
+
+
 

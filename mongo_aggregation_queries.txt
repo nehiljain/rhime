@@ -8,8 +8,8 @@ db.articles.aggregate([
 article with status x count for specific email
 db.articles.aggregate([
 	{$match: {
-				$and: [ 
-                        {email: 'selvam.palanimalai@gmail.com'}, 
+				$and: [
+                        {email: 'selvam.palanimalai@gmail.com'},
                         {status : '1'}
                        ]
               }
@@ -24,8 +24,8 @@ db.articles.aggregate([
 db.articles.aggregate([
 	{
 		$match: {
-					$and: [ 
-                        {email: 'selvam.palanimalai@gmail.com'}, 
+					$and: [
+                        {email: 'selvam.palanimalai@gmail.com'},
                         {status : '1'}
                        ]
               	}
@@ -33,11 +33,11 @@ db.articles.aggregate([
 	{
 		$group: {
 				_id: {
-						"email": "$email", 
+						"email": "$email",
 						"year" : {
 	                        $year : "$time_added"
 	                    },
-	                    "month": { 
+	                    "month": {
 	                    	$month: '$time_added'
 	                    },
 	                    "dayOfYear" : {
@@ -47,15 +47,15 @@ db.articles.aggregate([
 			count :  {$sum: 1}
 		}
 	}
-	
+
 ]);
 
 @weekly article count  with status x, and for email y
 db.articles.aggregate([
 	{
 		$match: {
-					$and: [ 
-                        {email: 'selvam.palanimalai@gmail.com'}, 
+					$and: [
+                        {email: 'selvam.palanimalai@gmail.com'},
                         {status : '1'}
                        ]
               	}
@@ -63,11 +63,11 @@ db.articles.aggregate([
 	{
 		$group: {
 				_id: {
-						"email": "$email", 
+						"email": "$email",
 						"year" : {
 	                        $year : "$time_added"
 	                    },
-	                    "month": { 
+	                    "month": {
 	                    	$month: '$time_added'
 	                    },
 	                    "week" : {
@@ -77,7 +77,7 @@ db.articles.aggregate([
 			count :  {$sum: 1}
 		}
 	}
-	
+
 ]);
 
 
@@ -117,7 +117,7 @@ Total count by status of article for specific email
 ----------------------------------------------------
 db.articles.aggregate([
 	{$match: {
-				$and: [ 
+				$and: [
                         {email: 'nehil@athletigen.com'}
                        ]
               }
