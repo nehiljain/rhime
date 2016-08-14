@@ -23,7 +23,7 @@ exports.connectPocket = function(req, res, next){
 		})
 
 	}
-}
+};
 
 /*
 	GET /sync/pocket
@@ -173,3 +173,50 @@ exports.syncPocket = function(req, res, next) {
 	}
 
 };
+
+
+
+
+
+/*
+	
+	Metrics:
+	daily_count
+	Daily Count API
+	GET /v1/stats/pocket/{user_id}/daily_count/
+ */
+
+exports.dailyCount = function(req, res, next){
+    debug('daily_count');
+	var result = Articles.aggregate([
+		{
+			$match: {
+						$and: [
+	                        {email: 'selvam.palanimalai@gmail.com'},
+	                        {status : '1'}
+	                       ]
+              		}
+		},
+		{
+			$group: {
+					_id: {
+							"email": "$email",
+							"year" : {
+		                        $year : "$time_added"
+		                    },
+		                    "month": {
+		                    	$month: '$time_added'
+		                    },
+		                    "dayOfYear" : {
+		                        $dayOfYear : "$time_added"
+		                    }
+	                },
+				count :  {$sum: 1}
+			}
+		}
+	]);
+
+	debug('result', result);
+	res.json(result);
+};
+

@@ -66,6 +66,7 @@ module.exports = function(app) {
 	//app.get('/api/pocket', app.middlewares.isAuthenticated, app.middlewares.isPocketAuthorized, apiController.syncPocket);
 	app.get('/connect/pocket', app.middlewares.isAuthenticated, app.middlewares.isPocketAuthorized, pocketApiController.connectPocket);
 	app.get('/sync/pocket', app.middlewares.isAuthenticated, app.middlewares.isPocketAuthorized, pocketApiController.syncPocket);
+	app.get('/v1/stats/pocket/daily_count/', app.middlewares.isAuthenticated, app.middlewares.isPocketAuthorized, pocketApiController.dailyCount);
 
 	/**
 	 * OAuth authentication routes. (Sign in)
