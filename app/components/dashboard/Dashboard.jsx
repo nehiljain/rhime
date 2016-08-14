@@ -1,6 +1,5 @@
 var React = require('react');
 
-var ConnectPocket = require('./ConnectPocket.jsx');
 var DashboardHeader = require('./DashboardHeader.jsx');
 var ArticleList = require('./ArticleList.jsx');
 
@@ -23,7 +22,6 @@ var Dashboard = React.createClass({
 	},
 
 	render: function () {
-
 		if ( !this.props.dashboardState.pocketConnected ){
 				return ( <ConnectPocket /> );
 		} else {
@@ -36,4 +34,4 @@ var Dashboard = React.createClass({
 		}
 	}
 });
-module.exports = Dashboard;
+module.exports = Dashboard; 

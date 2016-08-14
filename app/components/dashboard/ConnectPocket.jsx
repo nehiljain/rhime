@@ -2,6 +2,9 @@ var React = require('react')
 
 
 var ConnectPocket = React.createClass({
+	componentDidMount :  function(){
+	    console.log('Connect')  
+	},
 	render : function(){
 		return (
 			<div className="row">

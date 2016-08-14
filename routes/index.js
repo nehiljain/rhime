@@ -23,7 +23,7 @@ var passport = require('passport');
 
 module.exports = function(app) {
 
-console.log(app.middlewares)
+	//console.log(app.middlewares)
 	/**
 	 * Primary app routes.
 	 */
