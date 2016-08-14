@@ -4,11 +4,22 @@ var ConnectPocket = require('./ConnectPocket.jsx');
 var DashboardHeader = require('./DashboardHeader.jsx');
 var ArticleList = require('./ArticleList.jsx');
 
+
+var setSearchKeyFn = function(searchKey){
+	return this.setState({
+		searchKey : searchKey
+	})	
+}
 var Dashboard = React.createClass({
 
+	getInitialState: function() {
+		return {
+			searchKey: ''
+		};
+	},
 	componentDidMount: function () {
-		console.log('Dashboard');
-		console.log(this.props)
+		//console.log('Dashboard');
+		//console.log(this.props)
 	},
 
 	render: function () {
@@ -18,8 +29,8 @@ var Dashboard = React.createClass({
 		} else {
 			return (
 			<div className="row">
-				<DashboardHeader dashboardState={this.props.dashboardState} />
-				<ArticleList articles={this.props.dashboardState.articles} />
+				<DashboardHeader setSearchKeyFn={setSearchKeyFn.bind(this)} dashboardState={this.props.dashboardState} />
+				<ArticleList searchKey={this.state.searchKey}  articles={this.props.dashboardState.articles} />
 			</div>
 			)
 		}

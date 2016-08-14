@@ -1,72 +1,64 @@
 var React = require('react');
-var ArticleList = React.createClass({
+
+var ReactBSTable = require('react-bootstrap-table');  
+var BootstrapTable = ReactBSTable.BootstrapTable;
+var TableHeaderColumn = ReactBSTable.TableHeaderColumn;
+
+var Tags = require('./Tags.jsx');
+var Stats = require('./Stats.jsx');
+
+var tagFormatter = function(tags){
+	return <Tags tags={tags}/>;
+}
+
+var articlelist = React.createClass({
 
 	componentDidMount: function () {
-		$('#example tfoot th').each( function () {
-        var title = $(this).text();
-        $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
-    } );
- 
-    // DataTable
-    var table = $('#example').DataTable();
- 
-    // Apply the search
-    table.columns().every( function () {
-        var that = this;
- 
-        $( 'input', this.footer() ).on( 'keyup change', function () {
-            if ( that.search() !== this.value ) {
-                that.search( this.value ).draw();
-            }
-        });
-    });
-	},
+		//console.log(this.props.articles)
+		//document.querySelector('#search-bar').onKeyPress(this.props.setSearchKeyFn);
+	},	
 	render: function () {
 
-		var articles = [];
-		this.props.articles.forEach(function(a){
-			if ( a.resolved_title == '' || a.word_count == 0){
-				return ;
+		var articles = this.props.articles || [];
+		var total_time = 0;
+		var total_count = 0;
+		var _searchKey = this.props.searchKey;
+		var filteredArticles = articles.filter(function(item){
+			if ( _searchKey == ""){
+				return true;
 			}
-			var tags = []
-			a.tags.forEach(function(t){
-				tags = tags.concat( Object.keys(t) )
-				
-			})
-			articles.push(<tr key={a.item_id}>
-				<td><a href={"http://getpocket.com/a/read/" + a.item_id} target="_blank">{a.resolved_title}</a></td>
-				<td>{tags.join(",")}</td>
-				<td>{Math.round(a.word_count/250)}</td>
-				<td>{new Date(a.time_added).toString()}</td>
-				</tr>);
+			if( item.tags.length != 0 && Object.keys( item.tags[0] ).indexOf(_searchKey) != -1){
+				return true;
+			} else {
+				return false;
+			}
+		})
+		filteredArticles.forEach(function(item){
+			item.time = Math.round( item.word_count/250 );
+			item.resolved_link = <a href={"http://getpocket.com/a/read/"+item.item_id} target="_blank">{item.resolved_title}</a>;
+			if( !!item.item_id){
+				total_time+=item.time;
+				total_count++;
+			}
 		})
 
 		return (
+
 		<div className="row">
 			<div className="col-sm-12">
-				<table className="table table-responsive display" id="example" cellspacing="0" width="100%">
-					<thead>
-					  	<tr>
-							<td>Title</td>
-							<td> Tags </td>
-							<td>Time (mins)</td>
-							<td>Added On</td>
-					  	</tr>
-					</thead>
-					<tbody>{articles}</tbody>
-					<tfoot>
-					  	<tr>
-							<td>Title</td>
-							<td> Tags </td>
-							<td>Time (mins)</td>
-							<td>Added On</td>
-					  	</tr>
-					</tfoot>
-				</table>
+				<Stats count={total_count} duration={total_time} />
+				
+				<BootstrapTable data={filteredArticles} >
+					<TableHeaderColumn dataField="item_id" isKey={true}>id</TableHeaderColumn>
+					<TableHeaderColumn dataField="resolved_link" dataSort={true}>Name</TableHeaderColumn>
+					<TableHeaderColumn dataField="resolved_title" hidden={true}>Title</TableHeaderColumn>
+					<TableHeaderColumn dataField="tags" dataFormat={tagFormatter}>Tags</TableHeaderColumn>
+					<TableHeaderColumn dataField="time" dataSort={true}>Time</TableHeaderColumn>
+				</BootstrapTable>
 			</div>
 		</div>
 		)
 	}
 });
 
-module.exports = ArticleList;
+module.exports = articlelist;
