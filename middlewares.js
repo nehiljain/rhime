@@ -15,18 +15,18 @@ exports.isAuthenticated = function(req, res, next) {
  */
 exports.isPocketAuthorized = function(req, res, next) {
 
-	var provider = req.path.split('/').slice(-1)[0];
+	//var provider = req.path.split('/').slice(-1)[0];
 	//having tokens in DB or session is valid.
-	if ( provider != 'pocket' ){
+	/*if ( provider != 'pocket' ){
 		throw new Error('provider is NOT pocket for this request. Check code.')
-	}
+	}*/
 
 
-	if( _.find(req.user.tokens, { kind: provider }) || (!!req.session.pocketData && !!req.session.pocketData.accessToken)  ) {
+	if( _.find(req.user.tokens, { kind: 'pocket' }) || (!!req.session.pocketData && !!req.session.pocketData.accessToken)  ) {
 		debug("Authorized already: ",req.session.pocketData, req.user.tokens)
 		return next();
 	} else {
-		res.redirect('/auth/' + provider);
+		res.redirect('/auth/pocket' );
 		return;
 	}
 };
