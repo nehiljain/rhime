@@ -168,7 +168,7 @@ h1, h2, h3, h4, h5, h6 {
 @media (min-width: 768px) {
   .navbar-custom {
     background-color: transparent;
-    padding: 25px 0;
+    padding: 1px 0;
     -webkit-transition: padding 0.3s;
     -moz-transition: padding 0.3s;
     transition: padding 0.3s;
@@ -184,9 +184,21 @@ h1, h2, h3, h4, h5, h6 {
 @media (min-width: 768px) {
   .navbar-custom.affix {
     background-color: #222222;
-    padding: 10px 0; }
+    padding: 5px 0; }
     .navbar-custom.affix .navbar-brand {
       font-size: 1.5em; } }
+
+.header-bg {
+  background-image: url("../img/header-bg.jpg");
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  background-position: center center;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+  -o-background-size: cover;
+  text-align: center;
+  color: white; }
 
 header {
   background-image: url("../img/header-bg.jpg");

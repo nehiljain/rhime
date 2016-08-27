@@ -13,16 +13,24 @@ nav#mainNav.navbar.navbar-default.navbar-custom.navbar-fixed-top
       ul.nav.navbar-nav.navbar-right
         li.hidden
           a(href='#page-top')
-        //- li
-        //-   a.page-scroll(href='#services') Services
-        //- li
-        //-   a.page-scroll(href='#portfolio') Portfolio
-        //- li
-        //-   a.page-scroll(href='#about') About
-        //- li
-        //-   a.page-scroll(href='#team') Team
-        li.login-btn.btn.btn-primary
-          a.page-scroll(href='#contact') Login
+        if !user
+          li
+            a.page-scroll(href='/login') Login
+        else
+          li.dropdown(class=(title == 'Account Management') ? 'active' : undefined)
+            a.dropdown-toggle(href='#', data-toggle='dropdown')
+              if user.profile.picture
+                img(src='#{user.profile.picture}')
+              else
+                img(src='#{user.gravatar(30)}')
+              | #{user.profile.name || user.email || user.id}&nbsp;
+              i.caret
+            ul.dropdown-menu
+              li
+                a(href='/account') My Account
+              li.divider
+              li
+                a(href='/logout') Logout
     // /.navbar-collapse
   // /.container-fluid
 // Header

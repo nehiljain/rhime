@@ -1,23 +1,43 @@
 extends ../layout
 
 block content
-  .page-header
-    h3 Sign in
-  form.form-horizontal(method='POST')
-    input(type='hidden', name='_csrf', value=_csrf)
-    .form-group
-      label.col-sm-3.control-label(for='email') Email
-      .col-sm-7
-        input.form-control(type='email', name='email', id='email', placeholder='Email', autofocus, required)
-    .form-group
-      label.col-sm-3.control-label(for='password') Password
-      .col-sm-7
-        input.form-control(type='password', name='password', id='password', placeholder='Password', required)
-    .form-group
-      .col-sm-offset-3.col-sm-7
-        button.col-sm-3.btn.btn-primary(type='submit')
-          i.fa.fa-user
-          | Login
-        a.btn.btn-link(href='/forgot') Forgot your password?
-    .form-group
-      .col-sm-offset-3.col-sm-7
+  section.header-bg
+    .container
+      .row
+        .col-lg-12.text-center
+          h2.section-heading Login with Email
+      .row
+        .col-md-6.col-md-offset-3
+          form(method='POST')
+            input(type='hidden', name='_csrf', value=_csrf)
+            .row
+              .col-md-12
+                .form-group
+                  input#email.form-control(type='email', name='email', placeholder='Your Email *', autofocus, required, data-validation-required-message='Please enter your email address.')
+                  p.help-block.text-danger
+                .form-group
+                  input.form-control(type='password', name='password', id='password', placeholder='Password', required)
+                  p.help-block.text-danger
+              .clearfix
+              .col-lg-12.text-center
+                #success
+                button.btn.btn-xl(type='submit') Go
+
+  //- form.form-horizontal(method='POST')
+  //-   input(type='hidden', name='_csrf', value=_csrf)
+  //-   .form-group
+  //-     label.col-sm-3.control-label(for='email') Email
+  //-     .col-sm-7
+  //-       input.form-control(type='email', name='email', id='email', placeholder='Email', autofocus, required)
+  //-   .form-group
+  //-     label.col-sm-3.control-label(for='password') Password
+  //-     .col-sm-7
+  //-       input.form-control(type='password', name='password', id='password', placeholder='Password', required)
+  //-   .form-group
+  //-     .col-sm-offset-3.col-sm-7
+  //-       button.col-sm-3.btn.btn-primary(type='submit')
+  //-         i.fa.fa-user
+  //-         | Login
+  //-       a.btn.btn-link(href='/forgot') Forgot your password?
+  //-   .form-group
+  //-     .col-sm-offset-3.col-sm-7

@@ -1,8 +1,27 @@
 extends ../layout
 
 block content
-  .page-header
-    h3 Sign up
-  
-  include ../partials/signupForm.jade
-  
+  section.header-bg
+    .container
+      .row
+        .col-lg-12.text-center
+          h2.section-heading Get Started with Email
+      .row
+        .col-md-6.col-md-offset-3
+          form(id='signup-form', method='POST')
+            input(type='hidden', name='_csrf', value=_csrf)
+            .row
+              .col-md-12
+                .form-group
+                  input#email.form-control(type='email', name='email', placeholder='Your Email *', autofocus, required, data-validation-required-message='Please enter your email address.')
+                  p.help-block.text-danger
+                .form-group
+                  input.form-control(type='password', name='password', id='password', placeholder='Password', required)
+                  p.help-block.text-danger
+                .form-group
+                  input.form-control(type='password', name='confirmPassword', id='confirmPassword', placeholder='Confirm Password', required)
+                  p.help-block.text-danger
+              .clearfix
+              .col-lg-12.text-center
+                #success
+                button.btn.btn-xl(type='submit') Signup 
