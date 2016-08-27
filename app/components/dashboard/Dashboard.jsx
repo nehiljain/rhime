@@ -2,6 +2,7 @@ var React = require('react');
 
 var DashboardHeader = require('./DashboardHeader.jsx');
 var ArticleList = require('./ArticleList.jsx');
+var ConnectPocket = require('./ConnectPocket.jsx');
 
 
 var setSearchKeyFn = function(searchKey){
