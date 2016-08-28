@@ -10,16 +10,24 @@ var setSearchKeyFn = function(searchKey){
 		searchKey : searchKey
 	})	
 }
+
+var updateArticlelist =  function(articles){
+	return this.setState({
+		articles : articles
+	})
+}
+
 var Dashboard = React.createClass({
 
 	getInitialState: function() {
 		return {
-			searchKey: ''
+			searchKey: '',
+			articles : []
 		};
 	},
 	componentDidMount: function () {
-		//console.log('Dashboard');
-		//console.log(this.props)
+		console.log('Dashboard');
+		updateArticlelist.bind(this)(this.props.dashboardState.articles)
 	},
 
 	render: function () {
@@ -28,8 +36,8 @@ var Dashboard = React.createClass({
 		} else {
 			return (
 			<div className="row">
-				<DashboardHeader setSearchKeyFn={setSearchKeyFn.bind(this)} dashboardState={this.props.dashboardState} />
-				<ArticleList searchKey={this.state.searchKey}  articles={this.props.dashboardState.articles} />
+				<DashboardHeader setSearchKeyFn={setSearchKeyFn.bind(this)} updateArticlelist={updateArticlelist.bind(this)} dashboardState={this.props.dashboardState} />
+				<ArticleList searchKey={this.state.searchKey}  articles={this.state.articles} />
 			</div>
 			)
 		}

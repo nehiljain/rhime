@@ -38,6 +38,8 @@ exports.postLogin = function(req, res, next) {
     req.flash('errors', errors);
     return res.redirect('/login');
   }
+
+  console.log( req.body.email , req.body.password);
   //console.log(errors);
   passport.authenticate('local', function(err, user, info) {
     if (err) {
@@ -47,14 +49,16 @@ exports.postLogin = function(req, res, next) {
     debug(user);
     if (!user) {
       req.flash('errors', info);
+      debug('redirecting to /login')
       return res.redirect('/login');
     }
     req.logIn(user, function(err) {
       if (err) {
         return next(err);
       }
+      debug('logged in successfully. redirecting to /')
       req.flash('success', { msg: 'Success! You are logged in.' });
-      res.redirect(req.session.returnTo || '/');
+      res.redirect(req.session.returnTo || '/dashboard');
     });
   })(req, res, next);
 };

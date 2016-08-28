@@ -6,5 +6,6 @@ var state = document.getElementById('initial-state').innerHTML.trim() || "{}";
 var initialState = JSON.parse(state);
 
 if( document.getElementById('dashboard') ){
+	console.log("testings");
 	ReactDOM.render(<App dashboardState={initialState}/>, document.getElementById('dashboard') );	
 }

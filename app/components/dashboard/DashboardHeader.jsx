@@ -12,13 +12,22 @@ var DashboardHeader = React.createClass({
 
 	syncPocket:function(){
 		//var hostName = window.location.hostname;//'http://127.0.0.1:3000'
+		var self = this;
 		var request = new Request(window.location.protocol+'//'+window.location.host+'/sync/pocket',{
 			method : 'GET',
 			credentials : 'same-origin'
 		});
-		return fetch(request).then(function(data){
+		return fetch(request)
+		.then(function(response) {
+  			return response.json();
+		})
+		.then(function(data){
 			console.log(data);
+			if( !!data.articles && Array.isArray(data.articles) ){
+				self.props.updateArticlelist(data.articles)
+			}
 		});
+
 	},
 	search : function(event){
 		//console.log(event.target.value)
@@ -47,6 +56,7 @@ var DashboardHeader = React.createClass({
 				<div className="col-sm-12">
 					<input style={style.searchBar} type="text" id="search-bar" placeholder="Tag..."/>
 					<button style={style.buttons} className="btn btn-danger" onClick={this.search} > Search </button>
+					<button style={style.buttons} className="btn btn-danger" onClick={this.syncPocket} > Sync </button>
 				</div>
 			</div>
 		)
