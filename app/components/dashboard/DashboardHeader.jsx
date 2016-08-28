@@ -58,8 +58,8 @@ var DashboardHeader = React.createClass({
 		} 
 
 		return (
-			<div className="row r-dashboard-header top-buffer bottom-buffer">
-				<div className="col-sm-12">
+			<div className="row r-dashboard-header">
+				<div className="col-sm-10 col-sm-offset-1">
 					<input style={style.searchBar} type="text" id="search-bar" placeholder="Tag..."/>
 					<button style={style.buttons} className="btn btn-danger" onClick={this.search} > <i className="fa fa-search"></i> </button>
 					<button style={style.buttons} className="btn btn-danger" onClick={this.syncPocket} > <i className="fa fa-refresh"></i> Sync </button>
