@@ -2,10 +2,16 @@ var React = require('react');
 
 var style  = {
 	searchBar : {
-		width : "80%"
+		width : "60%",
+		marginLeft: "10px",
+    	marginRight: "10px",
+    	padding: '10px'
 	},
 	buttons : {
-		width : "20%"
+		width : "10%",
+		marginLeft: "10px",
+    	marginRight: "10px",
+    	padding: '10px'
 	}
 }
 var DashboardHeader = React.createClass({
@@ -52,11 +58,11 @@ var DashboardHeader = React.createClass({
 		} 
 
 		return (
-			<div className="row r-dashboard-header top-buffer">
+			<div className="row r-dashboard-header top-buffer bottom-buffer">
 				<div className="col-sm-12">
 					<input style={style.searchBar} type="text" id="search-bar" placeholder="Tag..."/>
-					<button style={style.buttons} className="btn btn-danger" onClick={this.search} > Search </button>
-					<button style={style.buttons} className="btn btn-danger" onClick={this.syncPocket} > Sync </button>
+					<button style={style.buttons} className="btn btn-danger" onClick={this.search} > <i className="fa fa-search"></i> </button>
+					<button style={style.buttons} className="btn btn-danger" onClick={this.syncPocket} > <i className="fa fa-refresh"></i> Sync </button>
 				</div>
 			</div>
 		)

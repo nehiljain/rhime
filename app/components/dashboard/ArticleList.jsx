@@ -45,9 +45,8 @@ var articlelist = React.createClass({
 		return (
 
 		<div className="row">
-			<div className="col-sm-12">
 				<Stats count={total_count} duration={total_time} />
-				
+			<div className="col-sm-12">
 				<BootstrapTable data={filteredArticles} >
 					<TableHeaderColumn dataField="item_id" isKey={true}>id</TableHeaderColumn>
 					<TableHeaderColumn dataField="resolved_link" dataSort={true}>Name</TableHeaderColumn>

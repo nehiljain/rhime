@@ -11,13 +11,12 @@ let _ = require('lodash');
 var debug = require('debug')('rhime:services:pocket');
 
 let syncPocket = function( user,qs){
-	debug('queryString: ', qs);
+	//debug('queryString: ', qs);
 	var latestPocketSync = new Date().toISOString();
 	return rp({
 		uri: 'https://getpocket.com/v3/get',
 		qs: qs
 	}).then(function(body){
-		debug('selvam')
 		var response = JSON.parse(body);
 		var articleList = []
 		if ( !response ){
