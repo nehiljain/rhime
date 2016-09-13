@@ -1,5 +1,7 @@
 var path = require('path');
 var webpack = require('webpack');
+var AssetsPlugin = require('assets-webpack-plugin')
+
 
 module.exports = {
     devtool: 'cheap-module-eval-source-map',
@@ -8,8 +10,8 @@ module.exports = {
     ],
     output: {
         path: path.join(__dirname, 'public/js'),
-        publicPath: '/',
-        filename: 'bundle.js'
+        publicPath: '/js/',
+        filename: '[hash].bundle.js'
     },
     devServer: {
         inline: true,
@@ -17,7 +19,8 @@ module.exports = {
     },
     plugins: [
         new webpack.optimize.OccurenceOrderPlugin(),
-        new webpack.NoErrorsPlugin()
+        new webpack.NoErrorsPlugin(),
+	new AssetsPlugin()
     ],
     module: {
         loaders: [

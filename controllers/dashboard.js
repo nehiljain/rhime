@@ -43,6 +43,7 @@ exports.index = function(req,res,next){
 			res.render('dashboard',{
 				dashboardHtml : ReactDOMServer.renderToString(Dashboard( { dashboardState : dashboardState} )),
 				state : JSON.stringify(dashboardState),
+				mainJsFile : req.mainJsFile
 			});
 		})
 		.catch(function(err){

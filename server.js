@@ -6,6 +6,7 @@ var express = require('express');
 var session = require('express-session');
 var bodyParser = require('body-parser');
 var dotenv = require('dotenv');
+var fs = require('fs')
 
 
 /* Dont know*/
@@ -64,11 +65,13 @@ app.set('view engine', 'jade');
 app.disable('etag');
 
 app.use(compress());
+
 app.use(sass({
   src: path.join(__dirname, 'public'),
   dest: path.join(__dirname, 'public'),
   sourceMap: true
 }));
+
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -87,7 +90,8 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
-app.use(function(req, res, next) {
+
+/*app.use(function(req, res, next) {
   if (req.path === '/api/upload') {
     next();
   } else {
@@ -96,10 +100,13 @@ app.use(function(req, res, next) {
 });
 app.use(lusca.xframe('SAMEORIGIN'));
 app.use(lusca.xssProtection(true));
+*/
+
 app.use(function(req, res, next) {
   res.locals.user = req.user;
   next();
 });
+
 app.use(function(req, res, next) {
   // After successful login, redirect back to /api, /contact or /
   if (/(api)|(contact)|(^\/$)/i.test(req.path)) {
@@ -107,12 +114,20 @@ app.use(function(req, res, next) {
   }
   next();
 });
+
 app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }));
+
+fs.readFile('webpack-assets.json','utf8',function(err,contents){
+	if( err) {return }
+	var contents = JSON.parse(contents)
+        app.mainJsFile = contents.main.js;
+})
 
 app.middlewares = require('./middlewares');
 
 app.use(function(req,res,next){
-  console.log(req.session);
+  req.mainJsFile = app.mainJsFile
+  //console.log(req.session);
   next();
 })
 require('./routes/index')(app);
