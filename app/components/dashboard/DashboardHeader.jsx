@@ -16,7 +16,15 @@ var style  = {
 }
 var DashboardHeader = React.createClass({
 
+	getInitialState : function(){
+		return {
+			isSyncing : false
+		}
+	},
 	syncPocket:function(){
+		this.setState({
+			isSyncing : true
+		})
 		//var hostName = window.location.hostname;//'http://127.0.0.1:3000'
 		var self = this;
 		var request = new Request(window.location.protocol+'//'+window.location.host+'/sync/pocket',{
@@ -28,10 +36,16 @@ var DashboardHeader = React.createClass({
   			return response.json();
 		})
 		.then(function(data){
-			console.log(data);
+			console.log('syncpocket successful',data);
 			if( !!data.articles && Array.isArray(data.articles) ){
 				self.props.updateArticlelist(data.articles)
+				self.setState({
+					isSyncing : false
+				})
 			}
+		})
+		.catch(function(err){
+			console.log('error syncpocket',err)
 		});
 
 	},
@@ -62,10 +76,18 @@ var DashboardHeader = React.createClass({
 				<div className="col-sm-10 col-sm-offset-1">
 					<input style={style.searchBar} type="text" id="search-bar" placeholder="Tag..."/>
 					<button style={style.buttons} className="btn btn-danger" onClick={this.search} > <i className="fa fa-search"></i> </button>
-					<button style={style.buttons} className="btn btn-danger" onClick={this.syncPocket} > <i className="fa fa-refresh"></i> Sync </button>
+					<button style={[style.buttons,{color:"yellow"}]} className="btn btn-danger" onClick={this.syncPocket} > <i className="fa fa-refresh"></i> Sync </button>
 				</div>
 			</div>
 		)
+	},
+	getSyncButtonStyles : function(){
+		var a = [
+			style.buttons,
+			( this.state.isSyncing )? { disabled : true} : {disabled : false}
+		]
+		console.log(a)
+		return a
 	}
 });
 module.exports = DashboardHeader; 

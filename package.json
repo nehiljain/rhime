@@ -1,9 +1,9 @@
 {
-  "name": "hackathon-starter",
-  "version": "3.5.0",
+  "name": "rhime",
+  "version": "0.0.1",
   "repository": {
     "type": "git",
-    "url": "https://github.com/sahat/hackathon-starter.git"
+    "url": "https://github.com/nehiljain/rhime.git"
   },
   "scripts": {
     "start": "webpack;gulp sass;node server.js",

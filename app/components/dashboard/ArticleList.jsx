@@ -11,6 +11,10 @@ var tagFormatter = function(tags){
 	return <Tags tags={tags}/>;
 }
 
+var titleFormatter = function(title,row){
+	return <a href={"http://getpocket.com/a/read/"+row.item_id} target="_blank">{title}</a>;
+}
+
 var articlelist = React.createClass({
 
 	componentDidMount: function () {
@@ -18,14 +22,13 @@ var articlelist = React.createClass({
 		//document.querySelector('#search-bar').onKeyPress(this.props.setSearchKeyFn);
 	},	
 	render: function () {
-
 		var articles = this.props.articles || [];
-		console.log(articles);
 		var total_time = 0;
 		var total_count = 0;
 		var _searchKey = this.props.searchKey;
 		var filteredArticles = [].concat(articles)
-		filteredArticles.filter(function(item){
+		
+		filteredArticles = filteredArticles.filter(function(item){
 			if ( _searchKey == ""){
 				return true;
 			}
@@ -35,10 +38,10 @@ var articlelist = React.createClass({
 				return false;
 			}
 		})
+		
 		filteredArticles.forEach(function(item){
 			item.time_added = moment(item.time_added).fromNow();
 			item.time = Math.round( item.word_count/250 );
-			item.resolved_link = <a href={"http://getpocket.com/a/read/"+item.item_id} target="_blank">{item.resolved_title}</a>;
 			if( !!item.item_id){
 				total_time+=item.time;
 				total_count++;
@@ -53,7 +56,7 @@ var articlelist = React.createClass({
 				<BootstrapTable data={filteredArticles} >
 					<TableHeaderColumn dataField="item_id" hidden={true} isKey={true}>id</TableHeaderColumn>
 					<TableHeaderColumn dataField="time_added" >Added On</TableHeaderColumn>
-					<TableHeaderColumn dataField="resolved_link" dataSort={true}>Name</TableHeaderColumn>
+					<TableHeaderColumn dataField="resolved_title" dataFormat={titleFormatter}>Name</TableHeaderColumn>
 					<TableHeaderColumn dataField="resolved_title" hidden={true}>Title</TableHeaderColumn>
 					<TableHeaderColumn dataField="tags" dataFormat={tagFormatter}>Tags</TableHeaderColumn>
 					<TableHeaderColumn dataField="time" dataSort={true}>Time</TableHeaderColumn>
