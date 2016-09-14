@@ -70,12 +70,14 @@ var DashboardHeader = React.createClass({
 	handleDelete: function (i) {
 		var tags = this.state.tags
 		tags.splice(i, 1)
-		this.setState({ tags: tags })
+		//this.setState({ tags: tags })
+		this.props.setSearchKeyFn( tags )
 	},
 	handleAddition: function (tag) {
 		var tags = this.state.tags
 		tags.push(tag)
-		this.setState({ tags: tags })
+		//this.setState({ tags: tags })
+		this.props.setSearchKeyFn( tags )
 	},
 	render: function () {
 		//console.log(this.props);
@@ -112,7 +114,6 @@ var DashboardHeader = React.createClass({
 					/>
 				</div>
 				<div className="col-sm-4">
-					<button style={style.buttons} className="btn btn-danger" onClick={this.search} > <i className="fa fa-search"></i> </button>
 					<button style={style.buttons} className="btn btn-danger" onClick={this.syncPocket} > <i className="fa fa-refresh"></i> Sync </button>					
 				</div>
 			</div>

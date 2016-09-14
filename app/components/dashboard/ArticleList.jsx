@@ -35,13 +35,11 @@ var articlelist = React.createClass({
 				return true;
 			}
 			if( item.tags.length != 0 ){
-				debugger;
 				var a = new Set( Object.keys(item.tags[0]) );
 				var b = new Set( _searchKey );
 				var intersection = new Set(
         			[...a].filter(x => b.has(x)));
 				
-				debugger	
 				return ( intersection.size > 0 ) ? true : false
 			} else {
 				return false;
