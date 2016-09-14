@@ -21,7 +21,7 @@ var Dashboard = React.createClass({
 
 	getInitialState: function() {
 		return {
-			searchKey: '',
+			searchKey: [],
 			articles : []
 		};
 	},

@@ -25,15 +25,24 @@ var articlelist = React.createClass({
 		var articles = this.props.articles || [];
 		var total_time = 0;
 		var total_count = 0;
-		var _searchKey = this.props.searchKey;
+		var _searchKey = this.props.searchKey.map(function(item){
+			return item.name 
+		});
 		var filteredArticles = [].concat(articles)
 		
 		filteredArticles = filteredArticles.filter(function(item){
-			if ( _searchKey == ""){
+			if ( _searchKey.length == 0){
 				return true;
 			}
-			if( item.tags.length != 0 && Object.keys( item.tags[0] ).indexOf(_searchKey) != -1){
-				return true;
+			if( item.tags.length != 0 ){
+				debugger;
+				var a = new Set( Object.keys(item.tags[0]) );
+				var b = new Set( _searchKey );
+				var intersection = new Set(
+        			[...a].filter(x => b.has(x)));
+				
+				debugger	
+				return ( intersection.size > 0 ) ? true : false
 			} else {
 				return false;
 			}

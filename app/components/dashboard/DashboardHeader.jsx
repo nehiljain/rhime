@@ -1,29 +1,37 @@
 var React = require('react');
+var ReactTags = require('react-tag-autocomplete');
+var Notification = require('react-notification').Notification;
 
 var style  = {
 	searchBar : {
-		width : "60%",
 		marginLeft: "10px",
     	marginRight: "10px",
     	padding: '10px'
 	},
 	buttons : {
-		width : "10%",
+		width:"100px",
 		marginLeft: "10px",
     	marginRight: "10px",
     	padding: '10px'
 	}
 }
+
+
 var DashboardHeader = React.createClass({
 
 	getInitialState : function(){
 		return {
-			isSyncing : false
+			isSyncing : false,
+			notification : null,
+			tags: [],
+			suggestions: [
+			]			
 		}
 	},
 	syncPocket:function(){
 		this.setState({
-			isSyncing : true
+			isSyncing : true,
+			notification : "syncing..."
 		})
 		//var hostName = window.location.hostname;//'http://127.0.0.1:3000'
 		var self = this;
@@ -40,18 +48,34 @@ var DashboardHeader = React.createClass({
 			if( !!data.articles && Array.isArray(data.articles) ){
 				self.props.updateArticlelist(data.articles)
 				self.setState({
-					isSyncing : false
+					isSyncing : false,
+					notification : "sync successful"
 				})
 			}
 		})
 		.catch(function(err){
 			console.log('error syncpocket',err)
+			self.setState({
+				isSyncing : false,
+				notification : "sync failed!"
+			})
 		});
 
 	},
 	search : function(event){
 		//console.log(event.target.value)
-		this.props.setSearchKeyFn( document.querySelector("#search-bar").value );
+		//this.props.setSearchKeyFn( document.querySelector("#search-bar").value );
+		this.props.setSearchKeyFn( this.state.tags )
+	},
+	handleDelete: function (i) {
+		var tags = this.state.tags
+		tags.splice(i, 1)
+		this.setState({ tags: tags })
+	},
+	handleAddition: function (tag) {
+		var tags = this.state.tags
+		tags.push(tag)
+		this.setState({ tags: tags })
 	},
 	render: function () {
 		//console.log(this.props);
@@ -73,10 +97,23 @@ var DashboardHeader = React.createClass({
 
 		return (
 			<div className="row r-dashboard-header">
-				<div className="col-sm-10 col-sm-offset-1">
-					<input style={style.searchBar} type="text" id="search-bar" placeholder="Tag..."/>
+				<div className="col-sm-offset-1 col-sm-7">
+					<Notification
+						isActive={!!this.state.notification}
+						message={this.state.notification}
+						dismissAfter={2000}
+					/>
+					<ReactTags
+						tags={this.state.tags}
+						suggestions={this.state.suggestions}
+						handleDelete={this.handleDelete}
+						handleAddition={this.handleAddition}
+						allowNew={true} 
+					/>
+				</div>
+				<div className="col-sm-4">
 					<button style={style.buttons} className="btn btn-danger" onClick={this.search} > <i className="fa fa-search"></i> </button>
-					<button style={[style.buttons,{color:"yellow"}]} className="btn btn-danger" onClick={this.syncPocket} > <i className="fa fa-refresh"></i> Sync </button>
+					<button style={style.buttons} className="btn btn-danger" onClick={this.syncPocket} > <i className="fa fa-refresh"></i> Sync </button>					
 				</div>
 			</div>
 		)

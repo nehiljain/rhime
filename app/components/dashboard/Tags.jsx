@@ -1,5 +1,13 @@
 var React = require('react');
 
+var style = {
+	tags : {
+		padding:"7px",
+		marginLeft : "2px",
+		marginRight : "2px"
+	}
+}
+
 var Tags = React.createClass({
 
 	componentDidMount: function () {
@@ -30,11 +38,11 @@ var Tags = React.createClass({
 		
 		var tagsHtml = []
 		Object.keys( tags[0] ).forEach(function(item,index){
-			tagsHtml.push( <span key={index} className="label label-danger"> {item} </span>);
+			tagsHtml.push( <span key={index} style={style.tags} className="label label-danger" onClick=""> {item} </span>);
 		})
 
 		return (
-			<div className="col-sm-12">
+			<div className="col-sm-12" >
 				{tagsHtml}
 			</div>
 		)
