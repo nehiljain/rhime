@@ -4,6 +4,7 @@ var debug = require('debug')('rhime:middleware');
  * Login Required middleware.
  */
 exports.isAuthenticated = function(req, res, next) {
+	console.log('checking isAuthenticated', req.isAuthenticated() , req.user)
 	if (req.isAuthenticated()) {
 		return next();
 	}
@@ -14,7 +15,9 @@ exports.isAuthenticated = function(req, res, next) {
  * Authorization Required middleware.
  */
 exports.isPocketAuthorized = function(req, res, next) {
-
+	console.log('checking isPocketAuthorized...')
+	console.log('req.user.tokens',req.user.tokens)
+	console.log('req.session.pocketData',req.session.pocketData)
 	//var provider = req.path.split('/').slice(-1)[0];
 	//having tokens in DB or session is valid.
 	/*if ( provider != 'pocket' ){

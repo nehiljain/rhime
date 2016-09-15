@@ -40,7 +40,30 @@ exports.connectPocket = function(req, res, next){
     debug('connectPocket....');
 	var token = _.find(req.user.tokens, { kind: 'pocket' });
 
-	if ( !!token && !!token.accessToken ) {
+	var qs = {
+		access_token: token.accessToken,
+		consumer_key: process.env.POCKET_CONSUMER_KEY,
+		count:"1000",
+		state:"all",
+		detailType:"complete"
+	};
+	return pocketServices.syncPocket(req.user,qs)
+	.then(function(response){
+		console.log('pocketServices',response, req.user.email);
+		setTimeout(function(){
+			res.redirect('/dashboard')
+		},1500);
+	})
+	.catch(function(err){
+		console.log(err);
+		res.render('statusPage',{
+			title : 'Error! failed connecting your pocket account. Try again, later'
+		})
+		res.json({
+			message : 'sync failed.'
+		})
+	})
+	/*if ( !!token && !!token.accessToken ) {
 		res.render('statusPage',{
 			'title' : 'successfully connected your pocket account !'
 		})
@@ -49,7 +72,7 @@ exports.connectPocket = function(req, res, next){
 			title : 'Error! failed connecting your pocket account. Try again, later'
 		})
 
-	}
+	}*/
 };
 
 /*

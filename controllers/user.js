@@ -110,6 +110,7 @@ exports.postSignup = function(req, res, next) {
   });
 
   User.findOne({ email: req.body.email }, function(err, existingUser) {
+    console.log('existingUser',existingUser)
     if (existingUser) {
       req.flash('errors', { msg: 'Account with that email address already exists.' });
       return res.redirect('/signup');
@@ -119,10 +120,11 @@ exports.postSignup = function(req, res, next) {
         return next(err);
       }
       req.logIn(user, function(err) {
+        console.log('user',user,err)
         if (err) {
           return next(err);
         }
-        res.redirect('/');
+        res.redirect('/dashboard');
       });
     });
   });

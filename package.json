@@ -6,7 +6,7 @@
     "url": "https://github.com/nehiljain/rhime.git"
   },
   "scripts": {
-    "start": "webpack;gulp sass;node server.js",
+    "start": "export DEBUG=rhime:*;webpack;gulp sass;node server.js",
     "test": "mocha --reporter spec --timeout 5000"
   },
   "dependencies": {
