@@ -40,7 +40,7 @@ var articlelist = React.createClass({
 				var intersection = new Set(
         			[...a].filter(x => b.has(x)));
 				
-				return ( intersection.size > 0 ) ? true : false
+				return ( intersection.size == _searchKey.length ) ? true : false
 			} else {
 				return false;
 			}
