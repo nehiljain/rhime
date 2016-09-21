@@ -28,7 +28,7 @@ var articlelist = React.createClass({
 		var _searchKey = this.props.searchKey.map(function(item){
 			return item.name 
 		});
-		var filteredArticles = [].concat(articles)
+		var filteredArticles = JSON.parse( JSON.stringify(articles) )
 		
 		filteredArticles = filteredArticles.filter(function(item){
 			if ( _searchKey.length == 0){
@@ -62,11 +62,11 @@ var articlelist = React.createClass({
 			<div className="col-sm-10 col-sm-offset-1">
 				<BootstrapTable data={filteredArticles} >
 					<TableHeaderColumn dataField="item_id" hidden={true} isKey={true}>id</TableHeaderColumn>
-					<TableHeaderColumn dataField="time_added" >Added On</TableHeaderColumn>
+					<TableHeaderColumn dataField="time_added" width="150">Added On</TableHeaderColumn>
 					<TableHeaderColumn dataField="resolved_title" dataFormat={titleFormatter}>Name</TableHeaderColumn>
 					<TableHeaderColumn dataField="resolved_title" hidden={true}>Title</TableHeaderColumn>
 					<TableHeaderColumn dataField="tags" dataFormat={tagFormatter}>Tags</TableHeaderColumn>
-					<TableHeaderColumn dataField="time" dataSort={true}>Time</TableHeaderColumn>
+					<TableHeaderColumn dataField="time" dataSort={true} width="100">Time</TableHeaderColumn>
 				</BootstrapTable>
 			</div>
 		</div>
